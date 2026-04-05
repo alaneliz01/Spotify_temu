@@ -1,0 +1,90 @@
+﻿@page
+@model spotify.Pages.Admin.PanelModel
+@{
+    ViewData["Title"] = "Panel de Administración";
+}
+
+<div class="main-content p-5">
+    @* Cabecera con Accesos Rápidos *@
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="fw-bold text-white mb-1">Panel de Control Musical</h1>
+            <p class="text-secondary small">Gestiona el catálogo, usuarios y sistema.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-page="/Admin/CancionesAdmin" class="btn btn-success rounded-pill px-4 fw-bold shadow">
+                <i class="bi bi-plus-lg me-2"></i>Nueva Canción
+            </a>
+            <a asp-page="/Admin/ListaUsuarios" class="btn btn-outline-info rounded-pill px-4 fw-bold border-secondary text-white">
+                <i class="bi bi-people me-2"></i>Usuarios
+            </a>
+            <a asp-page="/inicio" class="btn btn-outline-light rounded-pill px-4 fw-bold border-secondary">
+                <i class="bi bi-house me-2"></i>Inicio
+            </a>
+        </div>
+    </div>
+
+    @* Estadísticas Rápidas (Idea adicional) *@
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="p-3 rounded-3" style="background: #181818; border: 1px solid #282828;">
+                <span class="text-secondary small d-block">TOTAL CANCIONES</span>
+                <span class="h3 fw-bold text-white">@Model.Canciones.Count</span>
+            </div>
+        </div>
+    </div>
+
+    @* Tabla de Gestión *@
+    <div class="spotify-card shadow-lg" style="border: 1px solid #282828; background-color: #121212; border-radius: 12px; overflow: hidden;">
+        <div class="table-responsive">
+            <table class="table table-dark align-middle mb-0" style="--bs-table-bg: transparent;">
+                <thead>
+                    <tr style="color: #b3b3b3; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">
+                        <th class="border-0 px-4 py-3">Miniatura</th>
+                        <th class="border-0 py-3">Título Actual (Click para editar)</th>
+                        <th class="border-0 py-3">Artista</th>
+                        <th class="border-0 text-end px-4 py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cancion in Model.Canciones)
+                    {
+                        <tr style="border-bottom: 1px solid #181818;">
+                            <td class="px-4">
+                                <img src="@cancion.RutaPortada" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                            </td>
+                            <td>
+                                @* Formulario pequeño para cambiar nombre sin salir de la página *@
+                                <form method="post" asp-page-handler="ActualizarNombre" class="d-flex gap-2">
+                                    <input type="hidden" name="id" value="@cancion.Id" />
+                                    <input type="text" name="nuevoNombre" class="form-control form-control-sm bg-dark border-secondary text-white w-75"
+                                           value="@cancion.Titulo" />
+                                    <button type="submit" class="btn btn-sm btn-outline-success border-0">
+                                        <i class="bi bi-check2"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="text-secondary">@cancion.Artista</td>
+                            <td class="text-end px-4">
+                                <div class="d-flex justify-content-end gap-2">
+                                    @* Botón para ir al archivo de audio (Verificar link) *@
+                                    <a href="@cancion.RutaArchivo" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill">
+                                        <i class="bi bi-headphones"></i>
+                                    </a>
+                                    
+                                    @* Eliminar *@
+                                    <form method="post" asp-page-handler="Eliminar" asp-route-id="@cancion.Id"
+                                          onsubmit="return confirm('¿Borrar canción? Esta acción no se puede deshacer.');">
+                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

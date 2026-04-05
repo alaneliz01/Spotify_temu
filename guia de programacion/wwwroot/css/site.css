@@ -1,0 +1,147 @@
+/* --- CONFIGURACIÓN BASE --- */
+html, body {
+    background-color: #000000;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Circular', 'Segoe UI', sans-serif; /* Tipografía estilo Spotify */
+    overflow: hidden;
+}
+
+/* --- ESTRUCTURA PRINCIPAL (LAYOUT) --- */
+.main-wrapper {
+    background: #000;
+    height: 100vh;
+    display: flex;
+    padding: 8px;
+    gap: 8px;
+    /* Dejamos espacio abajo para que el reproductor no tape nada */
+    padding-bottom: 110px;
+}
+
+/* Sidebar Estilo Caja Moderna */
+.sidebar {
+    background-color: #121212;
+    width: 280px !important;
+    min-width: 280px !important;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Contenido Principal con Gradiente */
+.main-content {
+    background: linear-gradient(to bottom, #1e1e1e 0%, #121212 40%);
+    border-radius: 8px;
+    overflow-y: auto;
+    flex-grow: 1;
+    position: relative;
+    padding: 24px;
+}
+.spotify-card {
+    position: relative;
+    z-index: 1; /* Asegura que la tarjeta esté arriba */
+    overflow: hidden;
+}
+
+.custom-audio-player {
+    filter: invert(100%) hue-rotate(180deg) brightness(1.5);
+    position: relative;
+    z-index: 10; /* El reproductor también debe ser clickable */
+}
+
+.play-btn {
+    pointer-events: none; /* Esto es clave: el botón verde no debe "robarse" el clic */
+}
+
+/* --- TARJETAS DE CANCIONES (PARA C#) --- */
+/* Como ahora usamos <a>, quitamos el estilo de enlace por defecto */
+a.text-decoration-none {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.spotify-card {
+    background: #181818;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    padding: 16px;
+    height: 100%;
+    position: relative;
+}
+
+    .spotify-card:hover {
+        background: #282828;
+    }
+
+/* Imagen de la canción */
+.img-container img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+/* Botón de Play (Efecto Spotify) */
+.play-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1ed760; /* Verde Spotify */
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.spotify-card:hover .play-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- NAVEGACIÓN (SIDEBAR) --- */
+.nav-link {
+    color: #b3b3b3 !important;
+    font-weight: 700;
+    transition: 0.2s;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+    .nav-link:hover, .nav-link.active {
+        color: #fff !important;
+    }
+
+    .nav-link.active {
+        background-color: #282828 !important;
+    }
+
+/* --- REPRODUCTOR (FOOTER) --- */
+/* Ajuste para que el reproductor nativo de C# se vea premium */
+.custom-audio-player {
+    filter: invert(100%) hue-rotate(180deg) brightness(1.5);
+    height: 35px;
+    border-radius: 20px;
+}
+
+/* Scrollbar Personalizado (Estilo Minimalista) */
+.main-content::-webkit-scrollbar {
+    width: 12px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+    .main-content::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }

@@ -1,0 +1,104 @@
+﻿@page
+@model spotify.Pages.BuscarModel
+@{
+    ViewData["ActivePage"] = "buscar";
+    ViewData["Title"] = "Buscar - Spotify";
+}
+
+<div class="search-header mb-5">
+    <div class="search-input-wrapper">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="¿Qué quieres escuchar hoy?">
+    </div>
+</div>
+
+<h3 class="fw-bold mb-4 text-white">Explorar todo</h3>
+
+<div class="row g-4 mb-5">
+    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="category-card" style="background-color: #E13300;">
+            <span class="category-title">Podcasts</span>
+            <img src="https://via.placeholder.com/100?text=🎙️" class="category-img" alt="Podcasts">
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="category-card" style="background-color: #1E3264;">
+            <span class="category-title">Eventos</span>
+            <img src="https://via.placeholder.com/100?text=🎸" class="category-img" alt="Eventos">
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="category-card" style="background-color: #8D67AB;">
+            <span class="category-title">Pop</span>
+            <img src="https://via.placeholder.com/100?text=🎤" class="category-img" alt="Pop">
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="category-card" style="background-color: #E8115B;">
+            <span class="category-title">Latina</span>
+            <img src="https://via.placeholder.com/100?text=🔥" class="category-img" alt="Latina">
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="category-card" style="background-color: #148A08;">
+            <span class="category-title">Hip hop</span>
+            <img src="https://via.placeholder.com/100?text=🎧" class="category-img" alt="Hip hop">
+        </div>
+    </div>
+</div>
+
+<h3 class="fw-bold mb-4 text-white">Basado en tus búsquedas</h3>
+<div class="row g-4">
+    <div class="col-md-4 col-lg-3 col-xl-2">
+        <div class="spotify-card p-3 h-100">
+            <div class="img-container position-relative mb-3">
+                <img src="https://via.placeholder.com/300/1ed760/000?text=Bad+Bunny"
+                     class="img-fluid rounded-circle shadow-lg mx-auto d-block"
+                     style="width: 140px; height: 140px; object-fit: cover;">
+                <button class="play-btn shadow"><i class="bi bi-play-fill"></i></button>
+            </div>
+            <h6 class="fw-bold mb-1 text-white">Bad Bunny</h6>
+            <p class="text-secondary small">Artista</p>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Estilos del Buscador */
+        .search-input-wrapper { position: relative; max-width: 400px; }
+        .search-icon { 
+            position: absolute; left: 15px; top: 50%; transform: translateY(-50%); 
+            color: #000; font-size: 1.2rem; z-index: 5;
+        }
+        .search-input { 
+            width: 100%; padding: 12px 12px 12px 45px; border-radius: 500px; 
+            border: none; background-color: #fff; color: #000; font-weight: 500;
+        }
+
+        /* Estilos de Categorías */
+        .category-card {
+            aspect-ratio: 1 / 1;
+            border-radius: 8px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .category-card:hover { transform: scale(1.02); }
+
+        .category-title {
+            color: white; font-size: 1.4rem; font-weight: 700;
+            position: relative; z-index: 2;
+        }
+
+        .category-img {
+            position: absolute; width: 100px; height: 100px;
+            bottom: -15px; right: -20px;
+            transform: rotate(25deg);
+            z-index: 1;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+    </style>
+}

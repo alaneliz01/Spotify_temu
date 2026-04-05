@@ -1,0 +1,116 @@
+﻿@page
+@model spotify.Pages.InicioModel
+@{
+    ViewData["Title"] = "Spotify - Inicio";
+}
+
+<div class="content-wrapper">
+    <div class="welcome-header mb-5">
+        <h1 class="fw-bold display-4 text-white">
+            @{
+                var hora = DateTime.Now.Hour;
+                var saludo = hora < 12 ? "Buenos días" : hora < 19 ? "Buenas tardes" : "Buenas noches";
+            }
+            @saludo, @Model.NombreUsuario
+        </h1>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-end mb-3">
+        <h3 class="fw-bold text-white h4 mb-0">Recomendados para ti</h3>
+    </div>
+
+    <div class="row g-4 mb-5">
+        @if (Model.Canciones != null && Model.Canciones.Any())
+        {
+            @foreach (var cancion in Model.Canciones)
+            {
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    @* IMPORTANTE: Cambiamos a asp-route-id.
+                       Asegúrate que en Reproductor.cshtml la primera línea sea: @page "{id:int}"
+                    *@
+                    <a asp-page="/Reproductor" asp-route-id="@cancion.Id" class="text-decoration-none">
+                        <div class="spotify-card h-100 p-3">
+                            <div class="position-relative mb-3 card-img-wrapper">
+                                <img src="@cancion.RutaPortada" class="img-fluid rounded shadow-lg main-card-img"
+                                     onerror="this.src='/img/default-album.png'">
+                                
+                                <div class="play-btn shadow-lg">
+                                    <i class="bi bi-play-fill"></i>
+                                </div>
+                            </div>
+                            <h6 class="fw-bold text-white text-truncate mb-1">@cancion.Titulo</h6>
+                            <p class="text-secondary small text-truncate mb-0">@cancion.Artista</p>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <p class="text-secondary">No se encontraron canciones en la base de datos.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .content-wrapper {
+        background-color: #121212;
+        min-height: 100vh;
+        padding: 24px;
+    }
+
+    .spotify-card {
+        background: #181818;
+        border-radius: 8px;
+        transition: background 0.3s ease, transform 0.3s ease;
+        cursor: pointer;
+    }
+
+        .spotify-card:hover {
+            background: #282828;
+            transform: translateY(-5px);
+        }
+
+    .card-img-wrapper {
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    .main-card-img {
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .play-btn {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        background: #1db954;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-size: 2rem;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    }
+
+    .spotify-card:hover .play-btn {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .play-btn:hover {
+        background: #1ed760;
+        transform: scale(1.06) !important;
+    }
+</style>

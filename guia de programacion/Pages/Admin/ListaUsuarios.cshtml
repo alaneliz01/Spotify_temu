@@ -1,0 +1,82 @@
+﻿@page
+@model spotify.Pages.Admin.ListaUsuariosModel
+@{
+    ViewData["Title"] = "Gestión de Usuarios";
+}
+
+<div class="main-content p-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="fw-bold text-white">Panel de Usuarios</h1>
+        <a asp-page="/inicio" class="btn btn-outline-light rounded-pill px-4 fw-bold border-secondary">
+            Volver al Inicio
+        </a>
+    </div>
+
+    <div class="spotify-card shadow-lg" style="border: 1px solid #282828; background-color: #121212; border-radius: 12px; overflow: hidden;">
+        <div class="table-responsive">
+            <table class="table table-dark align-middle mb-0" style="--bs-table-bg: transparent;">
+                <thead>
+                    <tr style="color: #ffffff; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">
+                        <th class="border-0 px-4">Usuario</th>
+                        <th class="border-0">Rol / Plan</th>
+                        <th class="border-0 text-end px-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Usuarios)
+                    {
+                        <tr style="background-color: #181818; border-bottom: 8px solid #121212;">
+                            <td class="px-4" style="border-radius: 8px 0 0 8px;">
+                                <div class="d-flex align-items-center py-2">
+                                    <div class="me-3 d-flex align-items-center justify-content-center" style="background: #282828; color: white; width: 35px; height: 35px; border-radius: 50%;">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-bold text-white">@user.Nombre</span>
+                                        <small class="text-white-50">ID: @user.Id</small>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                @if (user.EsAdmin)
+                                {
+                                    <span class="badge bg-warning text-dark me-2">ADMIN</span>
+                                }
+                                @if (user.EsPremium)
+                                {
+                                    <span class="text-info small fw-bold"><i class="bi bi-patch-check-fill"></i> Premium</span>
+                                }
+                                else
+                                {
+
+                                    <span class="text-secondary small">Gratis</span>
+                                }
+                            </td>
+
+                            <td class="text-end px-4" style="border-radius: 0 8px 8px 0;">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <form method="post" asp-page-handler="TogglePremium" asp-route-id="@user.Id">
+                                        <button class="btn btn-sm @(user.EsPremium ? "btn-outline-info" : "btn-info text-dark") fw-bold rounded-pill px-3">
+                                            @(user.EsPremium ? "Quitar Prime" : "Dar Prime")
+                                        </button>
+                                    </form>
+
+                                    @if (user.Id != 1)
+                                    {
+                                        <form method="post" asp-page-handler="Eliminar" asp-route-id="@user.Id"
+                                              onsubmit="return confirm('¿Eliminar permanentemente a este usuario?');">
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
