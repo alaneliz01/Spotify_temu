@@ -1,0 +1,92 @@
+﻿@page
+@model spotify.Pages.CancionVerificadoModel
+@{
+    ViewData["Title"] = "Portal de Artista - Subir Música";
+    var nombreArtista = HttpContext.Session.GetString("UsuarioNombre");
+}
+
+<style>
+    body { background: #121212; color: white; }
+    .artist-portal-card { background: #181818; border-radius: 15px; padding: 40px; border: 1px solid #282828; }
+    .input-spotify { background: #2a2a2a; border: 1px solid transparent; color: white; border-radius: 4px; padding: 12px; }
+    .input-spotify:focus { background: #333; border-color: #1DB954; box-shadow: none; color: white; }
+    .btn-publish { background: #1DB954; color: black; font-weight: bold; border-radius: 50px; padding: 12px 35px; border: none; }
+    .btn-publish:hover { background: #1ed760; transform: scale(1.05); }
+</style>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="artist-portal-card">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="bi bi-patch-check-fill text-primary fs-2 me-3"></i>
+                    <div>
+                        <h2 class="fw-bold mb-0">Portal de Artista</h2>
+                        <p class="text-secondary mb-0">Publicando como: <strong>@nombreArtista</strong></p>
+                    </div>
+                </div>
+
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="small fw-bold text-secondary mb-2">TÍTULO DE LA CANCIÓN</label>
+                            <input type="text" asp-for="Nombre" class="form-control input-spotify" placeholder="Ej: My New Hit" id="txtName" />
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="small fw-bold text-secondary mb-2">GÉNERO MUSICAL</label>
+                            <select asp-for="Genero" class="form-control input-spotify">
+                                <option value="Pop">Pop</option>
+                                <option value="Rock">Rock</option>
+                                <option value="Urban">Urbano</option>
+                                <option value="Lo-fi">Lo-fi</option>
+                                <option value="Salsa">Salsa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="small fw-bold text-secondary mb-2">ARCHIVO DE AUDIO (MP3)</label>
+                        <input type="file" asp-for="Archivo" class="form-control input-spotify" accept="audio/*" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="small fw-bold text-secondary mb-2">ARTE DE PORTADA</label>
+                        <input type="file" asp-for="Portada" class="form-control input-spotify" accept="image/*" id="imgInput" />
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <a asp-page="/inicio" class="btn text-white me-3">Descartar</a>
+                        <button type="submit" class="btn btn-publish shadow">PUBLICAR CANCIÓN</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="text-center p-4" style="background: #000; border-radius: 15px;">
+                <h6 class="text-secondary mb-4">VISTA PREVIA</h6>
+                <img id="previewImage" src="https://via.placeholder.com/300/282828/fff?text=Portada" class="img-fluid rounded mb-3 shadow-lg" style="width: 200px; height: 200px; object-fit: cover;">
+                <h5 id="previewName" class="fw-bold mb-1">Título</h5>
+                <p class="text-secondary">@nombreArtista <i class="bi bi-patch-check-fill text-primary" style="font-size: 0.8rem;"></i></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const txtName = document.getElementById('txtName');
+        const imgInput = document.getElementById('imgInput');
+
+        txtName.addEventListener('input', (e) => document.getElementById('previewName').innerText = e.target.value || "Título");
+
+        imgInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => document.getElementById('previewImage').src = e.target.result;
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

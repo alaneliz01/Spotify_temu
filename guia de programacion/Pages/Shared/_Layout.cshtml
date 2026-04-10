@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -7,22 +8,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-
-    @* CLAVE 1: Esta línea permite que Biblioteca y otras páginas inyecten su CSS *@
     @await RenderSectionAsync("Styles", required: false)
     
     <style>
-        /* Asegura que el contenido use toda la pantalla y el scroll sea fluido */
         html, body { height: 100%; background-color: #000; overflow: hidden; }
         .main-wrapper { height: 100vh; overflow: hidden; }
         .main-content { overflow-y: auto; background: linear-gradient(to bottom, #1e1e1e, #121212); border-radius: 8px; margin: 8px 8px 8px 0; }
-        
-        /* Estilo para el botón de perfil */
         .btn-profile:hover { background-color: #282828 !important; transform: scale(1.05); transition: 0.2s; }
+        .text-verified { color: #00f2ff !important; text-shadow: 0 0 10px rgba(0, 242, 255, 0.4); }
         
-        /* Personalización del scrollbar */
-        .main-content::-webkit-scrollbar { width: 12px; }
-        .main-content::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.1); border-radius: 10px; }
+        .img-nav-profile {
+            width: 28px;
+            height: 28px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -33,31 +33,16 @@
                 <i class="bi bi-spotify text-success fs-3 me-2"></i>
                 <span class="fw-bold text-white fs-4">Spotify</span>
             </div>
-
             <ul class="nav nav-pills flex-column mb-4">
-                <li class="nav-item mb-1">
-                    <a class="nav-link text-white @(ViewData["ActivePage"]?.ToString() == "inicio" ? "active bg-dark" : "")" asp-page="/Inicio">
-                        <i class="bi bi-house-door-fill me-3"></i>Inicio
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a class="nav-link text-white @(ViewData["ActivePage"]?.ToString() == "buscar" ? "active bg-dark" : "")" asp-page="/Buscar">
-                        <i class="bi bi-search me-3"></i>Buscar
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a class="nav-link text-white @(ViewData["ActivePage"]?.ToString() == "biblioteca" ? "active bg-dark" : "")" asp-page="/Biblioteca">
-                        <i class="bi bi-collection-play-fill me-3"></i>Tu Biblioteca
-                    </a>
-                </li>
+                <li class="nav-item mb-1"><a class="nav-link text-white" asp-page="/Inicio"><i class="bi bi-house-door-fill me-3"></i>Inicio</a></li>
+                <li class="nav-item mb-1"><a class="nav-link text-white" asp-page="/Buscar"><i class="bi bi-search me-3"></i>Buscar</a></li>
+                <li class="nav-item mb-1"><a class="nav-link text-white" asp-page="/Biblioteca"><i class="bi bi-collection-play-fill me-3"></i>Tu Biblioteca</a></li>
             </ul>
         </div>
 
-        @* CONTENIDO PRINCIPAL *@
         <div class="flex-grow-1 main-content p-4 text-white">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="d-flex gap-2">
-                    @* Botones de navegación tipo Spotify *@
                     <button class="btn btn-black rounded-circle bg-black text-white p-1 px-2 opacity-50" onclick="history.back()"><i class="bi bi-chevron-left"></i></button>
                     <button class="btn btn-black rounded-circle bg-black text-white p-1 px-2 opacity-50" onclick="history.forward()"><i class="bi bi-chevron-right"></i></button>
                 </div>
@@ -65,16 +50,32 @@
                 <div class="d-flex align-items-center">
                     @{
                         var nombreUsuario = Context.Session.GetString("UsuarioNombre") ?? "Usuario";
+                        var fotoUsuario = Context.Session.GetString("UsuarioFoto");
                         var esPremium = Context.Session.GetString("EsPremium") == "true";
                         var esAdmin = Context.Session.GetString("EsAdmin") == "true";
+                        var esVerificado = Context.Session.GetString("EsVerificado") == "True";
                         var tipoPlan = Context.Session.GetString("TipoPlan") ?? "Gratis";
                     }
 
                     <div class="dropdown">
-                        <button class="btn btn-black rounded-pill dropdown-toggle px-3 py-1 fw-bold text-white shadow border-0 d-flex align-items-center btn-profile"
-                                type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #000;">
-                            <i class="bi bi-person-circle me-2 fs-5"></i>
+                        <button class="btn btn-black rounded-pill dropdown-toggle px-2 py-1 fw-bold text-white shadow border-0 d-flex align-items-center btn-profile"
+                                type="button" data-bs-toggle="dropdown" style="background-color: #000;">
+                            
+                            @if (!string.IsNullOrEmpty(fotoUsuario))
+                            {
+                                <img src="@fotoUsuario" class="img-nav-profile me-2" alt="Perfil" />
+                            }
+                            else
+                            {
+                                <i class="bi bi-person-circle me-2 fs-5"></i>
+                            }
+
                             <span class="me-1">@nombreUsuario</span>
+                            
+                            @if (esVerificado)
+                            {
+                                <i class="bi bi-patch-check-fill text-verified ms-1" title="Artista Verificado"></i>
+                            }
 
                             @if (esAdmin)
                             {
@@ -87,13 +88,24 @@
                                 </span>
                             }
                         </button>
+
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow border-secondary">
+                            @* NUEVO: Botón de Perfil visible para todos *@
+                            <li><a class="dropdown-item" asp-page="/Perfil"><i class="bi bi-person-circle me-2"></i> Perfil</a></li>
+                            
+                            <li><hr class="dropdown-divider border-secondary"></li>
+
                             @if (esAdmin)
                             {
-                                <li><a class="dropdown-item text-warning" asp-page="/Admin/Panel"><i class="bi bi-shield-lock me-2"></i> Panel</a></li>
+                                <li><a class="dropdown-item text-warning" asp-page="/Admin/Panel"><i class="bi bi-shield-lock me-2"></i> Panel Música</a></li>
+                                <li><a class="dropdown-item text-info" asp-page="/Admin/ListaUsuarios"><i class="bi bi-people me-2"></i> Usuarios</a></li>
                             }
                             else
                             {
+                                @if (esVerificado)
+                                {
+                                    <li><a class="dropdown-item text-verified fw-bold" asp-page="/CancionVerificado"><i class="bi bi-megaphone me-2"></i> Portal de Artista</a></li>
+                                }
                                 <li><a class="dropdown-item" asp-page="/Premium/Planes"><i class="bi bi-star me-2"></i> @(esPremium ? "Mi Plan" : "Obtener Prime")</a></li>
                             }
                             <li><hr class="dropdown-divider border-secondary"></li>
@@ -102,14 +114,10 @@
                     </div>
                 </div>
             </div>
-
             @RenderBody()
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    @* CLAVE 2: Esta línea permite que las páginas inyecten sus propios scripts *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

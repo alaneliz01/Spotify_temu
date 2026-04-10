@@ -35,14 +35,11 @@ public class IndexModel : PageModel
 
             // 1. Guardamos el nombre para el saludo
             HttpContext.Session.SetString("UsuarioNombre", usuarioValido.Nombre);
-
-            // 2. Guardamos el rol de administrador (en minúsculas para comparar fácil en JS/Liquid)
             HttpContext.Session.SetString("EsAdmin", usuarioValido.EsAdmin.ToString().ToLower());
-
-            // 3. NUEVO: Guardamos el estado Premium y el Tipo de Plan desde la DB
-            // Esto evita que un usuario normal vea el plan de otro
             HttpContext.Session.SetString("EsPremium", usuarioValido.EsPremium.ToString().ToLower());
             HttpContext.Session.SetString("TipoPlan", usuarioValido.Plan ?? "Gratis");
+            HttpContext.Session.SetString("EsVerificado", usuarioValido.EsVerificado ? "True" : "False");
+            HttpContext.Session.SetString("UsuarioFoto", usuarioValido.FotoPerfil ?? "");
 
             // Lógica de Redirección según el Rol
             if (usuarioValido.EsAdmin)

@@ -2,11 +2,13 @@
 @model spotify.Pages.InicioModel
 @{
     ViewData["Title"] = "Spotify - Inicio";
+    ViewData["ActivePage"] = "inicio";
 }
 
-<div class="content-wrapper">
+<div class="content-wrapper p-4">
+    @* --- SECCIÓN DE BIENVENIDA --- *@
     <div class="welcome-header mb-5">
-        <h1 class="fw-bold display-4 text-white">
+        <h1 class="fw-bold display-5 text-white">
             @{
                 var hora = DateTime.Now.Hour;
                 var saludo = hora < 12 ? "Buenos días" : hora < 19 ? "Buenas tardes" : "Buenas noches";
@@ -15,28 +17,22 @@
         </h1>
     </div>
 
-    <div class="d-flex justify-content-between align-items-end mb-3">
+    @* --- SECCIÓN DE CANCIONES --- *@
+    <div class="mb-4">
         <h3 class="fw-bold text-white h4 mb-0">Recomendados para ti</h3>
     </div>
 
     <div class="row g-4 mb-5">
-        @if (Model.Canciones != null && Model.Canciones.Any())
+        @if (Model.Canciones.Any())
         {
-            @foreach (var cancion in Model.Canciones)
+            @foreach (var cancion in Model.Canciones.Take(6))
             {
                 <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                    @* IMPORTANTE: Cambiamos a asp-route-id.
-                       Asegúrate que en Reproductor.cshtml la primera línea sea: @page "{id:int}"
-                    *@
                     <a asp-page="/Reproductor" asp-route-id="@cancion.Id" class="text-decoration-none">
-                        <div class="spotify-card h-100 p-3">
-                            <div class="position-relative mb-3 card-img-wrapper">
-                                <img src="@cancion.RutaPortada" class="img-fluid rounded shadow-lg main-card-img"
-                                     onerror="this.src='/img/default-album.png'">
-                                
-                                <div class="play-btn shadow-lg">
-                                    <i class="bi bi-play-fill"></i>
-                                </div>
+                        <div class="spotify-card h-100">
+                            <div class="img-container position-relative mb-3">
+                                <img src="@cancion.RutaPortada" class="img-fluid rounded shadow-lg main-card-img" onerror="this.src='/img/default-album.png'">
+                                <div class="play-btn-card shadow-lg"><i class="bi bi-play-fill fs-2"></i></div>
                             </div>
                             <h6 class="fw-bold text-white text-truncate mb-1">@cancion.Titulo</h6>
                             <p class="text-secondary small text-truncate mb-0">@cancion.Artista</p>
@@ -45,72 +41,74 @@
                 </div>
             }
         }
-        else
+    </div>
+
+    @* --- NUEVA SECCIÓN: ARTISTAS RANDOM --- *@
+    <div class="mb-4 mt-5">
+        <h3 class="fw-bold text-white h4 mb-0">Artistas populares</h3>
+    </div>
+
+    <div class="row g-4 mb-5">
+        @if (Model.ArtistasRandom.Any())
         {
-            <div class="col-12 text-center py-5">
-                <p class="text-secondary">No se encontraron canciones en la base de datos.</p>
-            </div>
+            @foreach (var artista in Model.ArtistasRandom)
+            {
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <a asp-page="/PerfilView" asp-route-nombre="@artista.Nombre" class="text-decoration-none">
+                        <div class="spotify-card h-100 text-center">
+                            <div class="img-container mb-3">
+                                @* IMAGEN CIRCULAR *@
+                                <img src="@artista.FotoPerfil" class="img-fluid rounded-circle shadow-lg artist-card-img"
+                                     style="aspect-ratio: 1/1; object-fit: cover;"
+                                     onerror="this.src='/img/default-user.png'">
+                                
+                                <div class="play-btn-card shadow-lg" style="right: 15%; bottom: 15%;">
+                                    <i class="bi bi-play-fill fs-2"></i>
+                                </div>
+                            </div>
+                            <h6 class="fw-bold text-white text-truncate mb-1">@artista.Nombre</h6>
+                            <p class="text-secondary small mb-0">Artista @(artista.EsVerificado ? "✔" : "")</p>
+                        </div>
+                    </a>
+                </div>
+            }
         }
     </div>
 </div>
 
-<style>
-    .content-wrapper {
-        background-color: #121212;
-        min-height: 100vh;
-        padding: 24px;
-    }
-
-    .spotify-card {
-        background: #181818;
-        border-radius: 8px;
-        transition: background 0.3s ease, transform 0.3s ease;
-        cursor: pointer;
-    }
-
-        .spotify-card:hover {
-            background: #282828;
-            transform: translateY(-5px);
+@section Styles {
+    <style>
+        .content-wrapper {
+            background: linear-gradient(to bottom, #1e1e1e 0%, #121212 300px);
+            min-height: 100vh;
         }
 
-    .card-img-wrapper {
-        border-radius: 6px;
-        overflow: hidden;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    }
+        .main-card-img {
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            width: 100%;
+            transition: 0.3s;
+        }
 
-    .main-card-img {
-        aspect-ratio: 1/1;
-        object-fit: cover;
-        width: 100%;
-    }
+        /* Estilo específico para las fotos de artistas */
+        .artist-card-img {
+            width: 100%;
+            max-width: 150px;
+            margin: 0 auto;
+            transition: 0.3s;
+        }
 
-    .play-btn {
-        position: absolute;
-        bottom: 8px;
-        right: 8px;
-        background: #1db954;
-        border-radius: 50%;
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: black;
-        font-size: 2rem;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-    }
+        .spotify-card:hover .artist-card-img,
+        .spotify-card:hover .main-card-img {
+            transform: scale(1.04);
+            filter: brightness(1.2);
+        }
 
-    .spotify-card:hover .play-btn {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .play-btn:hover {
-        background: #1ed760;
-        transform: scale(1.06) !important;
-    }
-</style>
+        .text-truncate {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+}

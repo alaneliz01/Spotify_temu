@@ -4,74 +4,153 @@
     ViewData["Title"] = "Gestión de Usuarios";
 }
 
+<style>
+    .user-row {
+        transition: background-color 0.3s ease;
+        border-bottom: 1px solid #282828 !important;
+    }
+    .user-row:hover {
+        background-color: #282828 !important;
+    }
+    .img-admin-profile {
+        width: 45px;
+        height: 45px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #333;
+    }
+    .avatar-placeholder {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1db954, #191414);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+    }
+    .text-verified { color: #00f2ff !important; }
+    .badge-admin { background-color: #f5b82e; color: #000; font-weight: 800; letter-spacing: 1px; }
+</style>
+
 <div class="main-content p-5">
     <div class="d-flex justify-content-between align-items-center mb-5">
-        <h1 class="fw-bold text-white">Panel de Usuarios</h1>
-        <a asp-page="/inicio" class="btn btn-outline-light rounded-pill px-4 fw-bold border-secondary">
-            Volver al Inicio
-        </a>
+        <div>
+            <h1 class="fw-bold text-white mb-1">Panel de Usuarios</h1>
+            <p class="text-secondary small">Administra los permisos, planes y verificación de la comunidad.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-page="/Admin/Panel" class="btn btn-outline-success rounded-pill px-4 fw-bold">
+                <i class="bi bi-music-note-list me-2"></i>Panel de Música
+            </a>
+            <a asp-page="/inicio" class="btn btn-outline-light rounded-pill px-4 fw-bold border-secondary">
+                Volver al Inicio
+            </a>
+        </div>
     </div>
 
-    <div class="spotify-card shadow-lg" style="border: 1px solid #282828; background-color: #121212; border-radius: 12px; overflow: hidden;">
+    <div class="spotify-card shadow-lg" style="background-color: #121212; border-radius: 15px; border: 1px solid #282828; overflow: hidden;">
         <div class="table-responsive">
-            <table class="table table-dark align-middle mb-0" style="--bs-table-bg: transparent;">
+            <table class="table table-dark align-middle mb-0">
                 <thead>
-                    <tr style="color: #ffffff; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;">
-                        <th class="border-0 px-4">Usuario</th>
-                        <th class="border-0">Rol / Plan</th>
-                        <th class="border-0 text-end px-4">Acciones</th>
+                    <tr class="text-secondary" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; background-color: #181818;">
+                        <th class="border-0 px-4 py-3">Usuario</th>
+                        <th class="border-0 py-3">Estado / Plan</th>
+                        <th class="border-0 text-end px-4 py-3">Gestión de Cuenta</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var user in Model.Usuarios)
                     {
-                        <tr style="background-color: #181818; border-bottom: 8px solid #121212;">
-                            <td class="px-4" style="border-radius: 8px 0 0 8px;">
-                                <div class="d-flex align-items-center py-2">
-                                    <div class="me-3 d-flex align-items-center justify-content-center" style="background: #282828; color: white; width: 35px; height: 35px; border-radius: 50%;">
-                                        <i class="bi bi-person"></i>
-                                    </div>
+                        <tr class="user-row">
+                            <td class="px-4 py-3">
+                                <div class="d-flex align-items-center">
+                                    @* Lógica de Imagen *@
+                                    @if (!string.IsNullOrEmpty(user.FotoPerfil))
+                                    {
+                                        <img src="@user.FotoPerfil" class="img-admin-profile me-3 shadow" />
+                                    }
+                                    else
+                                    {
+                                        <div class="avatar-placeholder me-3 shadow">
+                                            @user.Nombre.Substring(0, 1).ToUpper()
+                                        </div>
+                                    }
+
                                     <div class="d-flex flex-column">
-                                        <span class="fw-bold text-white">@user.Nombre</span>
-                                        <small class="text-white-50">ID: @user.Id</small>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="fw-bold text-white fs-6">@user.Nombre</span>
+                                            @if (user.EsVerificado)
+                                            {
+                                                <i class="bi bi-patch-check-fill text-verified" title="Verificado"></i>
+                                            }
+                                        </div>
+                                        <span class="text-secondary" style="font-size: 0.75rem;">ID Cuenta: #@user.Id</span>
                                     </div>
                                 </div>
                             </td>
 
                             <td>
-                                @if (user.EsAdmin)
+                                <div class="d-flex flex-wrap gap-2">
+                                    @if (user.EsAdmin)
+                                    {
+                                        <span class="badge badge-admin px-3 rounded-pill">STAFF</span>
+                                    }
+                                    
+                                    @if (user.EsVerificado)
+                                    {
+                                        <span class="badge bg-info bg-opacity-10 text-verified border border-info border-opacity-25 px-3 rounded-pill" style="font-size: 0.7rem;">
+                                            ARTISTA
+                                        </span>
+                                    }
+
+                                    @if (user.EsPremium)
+                                    {
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 rounded-pill" style="font-size: 0.7rem;">
+                                            <i class="bi bi-star-fill me-1"></i> @user.Plan.ToUpper()
+                                        </span>
+                                    }
+                                    else if (!user.EsAdmin)
+                                    {
+                                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-3 rounded-pill" style="font-size: 0.7rem;">
+                                            FREE
+                                        </span>
+                                    }
+                                </div>
+                            </td>
+
+                            <td class="text-end px-4">
+                                @if (user.Id != 1)
                                 {
-                                    <span class="badge bg-warning text-dark me-2">ADMIN</span>
-                                }
-                                @if (user.EsPremium)
-                                {
-                                    <span class="text-info small fw-bold"><i class="bi bi-patch-check-fill"></i> Premium</span>
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <form method="post" asp-page-handler="ToggleVerificado" asp-route-id="@user.Id">
+                                            <button class="btn btn-sm @(user.EsVerificado ? "btn-outline-info" : "btn-info text-dark") fw-bold rounded-pill px-3 shadow-sm">
+                                                @(user.EsVerificado ? "Quitar Verificado" : "Verificar")
+                                            </button>
+                                        </form>
+
+                                        <form method="post" asp-page-handler="TogglePremium" asp-route-id="@user.Id">
+                                            <button class="btn btn-sm @(user.EsPremium ? "btn-outline-success" : "btn-success text-dark") fw-bold rounded-pill px-3 shadow-sm">
+                                                @(user.EsPremium ? "Bajar a Gratis" : "Hacer Premium")
+                                            </button>
+                                        </form>
+
+                                        <form method="post" asp-page-handler="Eliminar" asp-route-id="@user.Id"
+                                              onsubmit="return confirm('¿Seguro que deseas eliminar a @user.Nombre?');">
+                                            <button class="btn btn-sm btn-outline-danger rounded-circle p-2" title="Eliminar Usuario">
+                                                <i class="bi bi-trash3 px-1"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 }
                                 else
                                 {
-
-                                    <span class="text-secondary small">Gratis</span>
+                                    <div class="d-flex justify-content-end align-items-center gap-2 text-white-50">
+                                        <i class="bi bi-lock-fill"></i>
+                                        <span class="small fst-italic">Sistema Protegido</span>
+                                    </div>
                                 }
-                            </td>
-
-                            <td class="text-end px-4" style="border-radius: 0 8px 8px 0;">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <form method="post" asp-page-handler="TogglePremium" asp-route-id="@user.Id">
-                                        <button class="btn btn-sm @(user.EsPremium ? "btn-outline-info" : "btn-info text-dark") fw-bold rounded-pill px-3">
-                                            @(user.EsPremium ? "Quitar Prime" : "Dar Prime")
-                                        </button>
-                                    </form>
-
-                                    @if (user.Id != 1)
-                                    {
-                                        <form method="post" asp-page-handler="Eliminar" asp-route-id="@user.Id"
-                                              onsubmit="return confirm('¿Eliminar permanentemente a este usuario?');">
-                                            <button class="btn btn-sm btn-outline-danger rounded-pill">
-                                                <i class="bi bi-trash3"></i>
-                                            </button>
-                                        </form>
-                                    }
-                                </div>
                             </td>
                         </tr>
                     }

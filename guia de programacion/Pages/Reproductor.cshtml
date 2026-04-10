@@ -1,136 +1,74 @@
 ﻿@page "{id:int}"
 @model spotify.Pages.ReproductorModel
 
-<div class="player-page-wrapper">
-    <div class="header-controls">
-        <a asp-page="/Inicio" class="close-button"><i class="bi bi-x-lg"></i></a>
+<div class="player-layout-wrapper">
+    @* PANEL IZQUIERDO: PLAYLIST *@
+    <div class="playlist-panel flex-grow-1 p-5">
+        <h3 class="fw-bold text-white-50 small mb-4">A CONTINUACIÓN</h3>
+        <div class="playlist-container">
+            @foreach (var c in Model.ListaReproduccion)
+            {
+                <div class="playlist-item @(c.Id == Model.Cancion.Id ? "active" : "") d-flex align-items-center px-3 py-2">
+                    <a asp-page="/Reproductor" asp-route-id="@c.Id" asp-route-contexto="@Model.Contexto" asp-route-valor="@Model.Valor" class="d-flex align-items-center flex-grow-1 text-decoration-none">
+                        <img src="@c.RutaPortada" class="item-portada me-3">
+                        <p class="item-titulo text-white fw-bold mb-0">@c.Titulo</p>
+                    </a>
+                    <a asp-page="/PerfilView" asp-route-nombre="@c.Artista" class="text-secondary small ms-2 hover-white text-decoration-none">@c.Artista</a>
+                </div>
+            }
+        </div>
     </div>
 
-    <div class="container text-center">
-        <div class="mb-4">
-            <img src="@Model.Cancion.RutaPortada" class="main-album-art shadow-lg">
+    @* PANEL DERECHO: INFO GLASS *@
+    <div class="artist-panel p-4">
+        <div class="album-container mb-4 text-center">
+            <img src="@Model.Cancion.RutaPortada" class="album-art-square shadow-lg">
         </div>
 
-        <div class="mb-5">
-            <h1 class="display-4 fw-bold text-white">@Model.Cancion.Titulo</h1>
-            <h3 class="text-secondary">@Model.Cancion.Artista</h3>
-        </div>
-
-        <div class="player-interface mx-auto" style="max-width: 500px;">
-            <div class="d-flex align-items-center justify-content-center gap-4 mb-3">
-                <button class="btn-icon text-secondary"><i class="bi bi-shuffle"></i></button>
-                <button class="btn-icon text-white"><i class="bi bi-skip-start-fill fs-3"></i></button>
-                
-                <button class="btn-play-main" id="btnToggle">
-                    <i class="bi bi-play-fill" id="playIcon"></i>
-                </button>
-
-                <button class="btn-icon text-white"><i class="bi bi-skip-end-fill fs-3"></i></button>
-                <button class="btn-icon text-secondary"><i class="bi bi-repeat"></i></button>
-            </div>
-
-            <div class="d-flex align-items-center gap-2">
-                <span id="timeCurrent" class="small text-secondary" style="min-width: 35px;">0:00</span>
-                <div class="progress-container flex-grow-1" id="progressArea">
-                    <div class="progress-bar-fill" id="barFill"></div>
+        <div class="info-card p-3 rounded-4 mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="h3 fw-bold text-white mb-0">@Model.Cancion.Titulo</h2>
+                    <a asp-page="/PerfilView" asp-route-nombre="@Model.Cancion.Artista" class="h5 text-secondary text-decoration-none hover-white">@Model.Cancion.Artista</a>
                 </div>
-                <span id="timeTotal" class="small text-secondary" style="min-width: 35px;">0:00</span>
+                <form method="post" asp-page-handler="ToggleFavorito" asp-route-id="@Model.Cancion.Id">
+                    <input type="hidden" name="tiempo" id="tiempoInput" value="0" />
+                    <input type="hidden" name="contexto" value="@Model.Contexto" />
+                    <input type="hidden" name="valor" value="@Model.Valor" />
+                    <button type="submit" class="btn-fav" onclick="document.getElementById('tiempoInput').value = document.getElementById('audioEngine').currentTime">
+                        <i class="bi @(Model.Cancion.EsFavorito ? "bi-heart-fill text-success" : "bi-heart") fs-3"></i>
+                    </button>
+                </form>
             </div>
         </div>
 
-        <audio id="audioEngine" src="@Model.Cancion.RutaArchivo" autoplay></audio>
+        @* SECCIÓN ACERCA DEL ARTISTA *@
+        <a asp-page="/PerfilView" asp-route-nombre="@Model.Cancion.Artista" class="text-decoration-none">
+            <div class="about-artist p-3 rounded-4 mt-3 hover-bright">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="artist-mini-img" style="background-image: url('@Model.FotoArtista')"></div>
+                    <div>
+                        <p class="fw-bold text-white mb-0">@Model.Cancion.Artista @(Model.ArtistaVerificado ? "✔" : "")</p>
+                        <p class="small text-secondary mb-0">Ver perfil</p>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
 </div>
 
-<style>
-    .player-page-wrapper {
-        background: #121212;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        color: white;
-    }
-
-    .main-album-art {
-        width: 350px;
-        height: 350px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-
-    /* Botón Play Blanco Circular */
-    .btn-play-main {
-        width: 56px;
-        height: 56px;
-        background: white;
-        border: none;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        color: black;
-        transition: transform 0.2s;
-    }
-    .btn-play-main:hover { transform: scale(1.05); }
-
-    .btn-icon { background: none; border: none; font-size: 1.2rem; }
-
-    /* Barra de progreso estilo Spotify */
-    .progress-container {
-        height: 4px;
-        background: #4f4f4f;
-        border-radius: 2px;
-        cursor: pointer;
-        position: relative;
-    }
-    .progress-bar-fill {
-        height: 100%;
-        background: #1db954; /* El verde de tu imagen */
-        width: 0%;
-        border-radius: 2px;
-    }
-    .progress-container:hover .progress-bar-fill { background: #1ed760; }
-</style>
-
-<script>
-    const audio = document.getElementById('audioEngine');
-    const btnToggle = document.getElementById('btnToggle');
-    const playIcon = document.getElementById('playIcon');
-    const barFill = document.getElementById('barFill');
-    const progressArea = document.getElementById('progressArea');
-    const timeCurrent = document.getElementById('timeCurrent');
-    const timeTotal = document.getElementById('timeTotal');
-
-    // Play y Pause
-    btnToggle.onclick = () => {
-        if (audio.paused) {
-            audio.play();
-            playIcon.className = "bi bi-pause-fill";
-        } else {
-            audio.pause();
-            playIcon.className = "bi bi-play-fill";
-        }
-    };
-
-    // Actualizar barra y números de tiempo
-    audio.ontimeupdate = () => {
-        const pct = (audio.currentTime / audio.duration) * 100;
-        barFill.style.width = pct + "%";
-        timeCurrent.innerText = formatTime(audio.currentTime);
-        if (audio.duration) timeTotal.innerText = formatTime(audio.duration);
-    };
-
-    // Hacer clic en la barra para cambiar el tiempo
-    progressArea.onclick = (e) => {
-        const width = progressArea.clientWidth;
-        const clickX = e.offsetX;
-        audio.currentTime = (clickX / width) * audio.duration;
-    };
-
-    function formatTime(secs) {
-        const min = Math.floor(secs / 60);
-        const s = Math.floor(secs % 60);
-        return min + ":" + (s < 10 ? "0" + s : s);
-    }
-</script>
+@* CONTROLES *@
+<div class="bottom-player-bar">
+    <div class="d-flex flex-column align-items-center justify-content-center h-100">
+        <div class="d-flex align-items-center gap-4 mb-2">
+            <a asp-page="/Reproductor" asp-route-id="@Model.AnteriorCancionId" asp-route-contexto="@Model.Contexto" asp-route-valor="@Model.Valor" class="nav-btn"><i class="bi bi-skip-start-fill"></i></a>
+            <button class="btn-play-main" onclick="const a = document.getElementById('audioEngine'); a.paused ? a.play() : a.pause()"><i class="bi bi-play-fill"></i></button>
+            <a asp-page="/Reproductor" asp-route-id="@Model.SiguienteCancionId" asp-route-contexto="@Model.Contexto" asp-route-valor="@Model.Valor" class="nav-btn"><i class="bi bi-skip-end-fill"></i></a>
+        </div>
+        <audio id="audioEngine" controls autoplay class="custom-player-style w-50"
+               onloadedmetadata="this.currentTime = @Model.TiempoActual"
+               onended="window.location.href='/Reproductor/@Model.SiguienteCancionId?contexto=@Model.Contexto&valor=@Model.Valor'">
+            <source src="@Model.Cancion.RutaArchivo" type="audio/mpeg">
+        </audio>
+    </div>
+</div>

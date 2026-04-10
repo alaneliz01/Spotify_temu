@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using spotify.Data;
 
@@ -11,9 +12,11 @@ using spotify.Data;
 namespace spotify.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260410203038_fotoperfil")]
+    partial class fotoperfil
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +43,6 @@ namespace spotify.Migrations
 
                     b.Property<TimeSpan>("Duracion")
                         .HasColumnType("time");
-
-                    b.Property<bool>("EsFavorito")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Genero")
                         .IsRequired()

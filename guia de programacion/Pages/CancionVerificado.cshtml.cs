@@ -1,19 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using spotify.Models;
 using spotify.Data;
 using spotify.Services;
 using System.ComponentModel.DataAnnotations;
 
-namespace spotify.Pages.Admin
+namespace spotify.Pages
 {
-    // Asegúrate de que la clase se llame exactamente CancionesAdminModel
-    public class CancionesAdminModel : PageModel
+    // Esta clase se llama CancionVerificadoModel
+    public class CancionVerificadoModel : PageModel
     {
         private readonly AzureBlobService _blobService;
         private readonly ApplicationDbContext _context;
 
-        public CancionesAdminModel(ApplicationDbContext context, AzureBlobService blobService)
+        public CancionVerificadoModel(ApplicationDbContext context, AzureBlobService blobService)
         {
             _context = context;
             _blobService = blobService;
@@ -21,9 +21,6 @@ namespace spotify.Pages.Admin
 
         [BindProperty, Required]
         public string Nombre { get; set; }
-
-        [BindProperty, Required]
-        public string Artista { get; set; }
 
         [BindProperty, Required]
         public string Genero { get; set; }
@@ -34,9 +31,23 @@ namespace spotify.Pages.Admin
         [BindProperty]
         public IFormFile Portada { get; set; }
 
+        public IActionResult OnGet()
+        {
+            var esVerificado = HttpContext.Session.GetString("EsVerificado");
+            if (string.IsNullOrEmpty(esVerificado) || !esVerificado.Equals("True", StringComparison.OrdinalIgnoreCase))
+            {
+                return RedirectToPage("/inicio");
+            }
+
+            return Page();
+        }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (Archivo == null || Portada == null) return Page();
+
+            // Aquí el artista es automático
+            var artistaSesion = HttpContext.Session.GetString("UsuarioNombre") ?? "Artista Desconocido";
 
             var urlAudio = await _blobService.SubirArchivoAsync(Archivo);
             var urlPortada = await _blobService.SubirArchivoAsync(Portada);
@@ -44,7 +55,7 @@ namespace spotify.Pages.Admin
             var cancion = new Cancion
             {
                 Titulo = Nombre,
-                Artista = Artista, // El admin sí puede escribir el nombre del artista
+                Artista = artistaSesion,
                 Genero = Genero,
                 RutaArchivo = urlAudio,
                 RutaPortada = urlPortada
@@ -52,7 +63,7 @@ namespace spotify.Pages.Admin
 
             _context.Canciones.Add(cancion);
             await _context.SaveChangesAsync();
-            return RedirectToPage("/Inicio");
+            return RedirectToPage("/inicio");
         }
     }
 }

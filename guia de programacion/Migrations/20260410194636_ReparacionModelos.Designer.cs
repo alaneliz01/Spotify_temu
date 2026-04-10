@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using spotify.Data;
 
@@ -11,9 +12,11 @@ using spotify.Data;
 namespace spotify.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260410194636_ReparacionModelos")]
+    partial class ReparacionModelos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +43,6 @@ namespace spotify.Migrations
 
                     b.Property<TimeSpan>("Duracion")
                         .HasColumnType("time");
-
-                    b.Property<bool>("EsFavorito")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Genero")
                         .IsRequired()
@@ -140,10 +140,6 @@ namespace spotify.Migrations
                     b.Property<bool>("EsVerificado")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FotoPerfil")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -172,7 +168,6 @@ namespace spotify.Migrations
                             EsAdmin = true,
                             EsPremium = false,
                             EsVerificado = false,
-                            FotoPerfil = "",
                             Nombre = "Administrador Sistema",
                             Password = "admin123",
                             Plan = "Gratis",
