@@ -1,0 +1,118 @@
+﻿@page
+@model spotify.Pages.Premium.Index1Model
+@{
+    ViewData["Title"] = "Finalizar Pago - Spotify";
+    // Aquí puedes definir el precio dinámicamente si lo deseas
+    var precioPlan = "9.99";
+}
+
+@* 1. ESTILOS LOCALES PARA EL LOOK DE SPOTIFY *@
+<style>
+    /* Forzamos el fondo oscuro solo para esta página si el Layout es claro */
+    body {
+        background: linear-gradient(180deg, #181818 0%, #000 100%) !important;
+        color: white !important;
+        min-height: 100vh;
+    }
+
+    .payment-card {
+        background-color: #121212;
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+
+    .spotify-green {
+        color: #1DB954;
+    }
+
+    .summary-box {
+        background-color: #1e1e1e;
+        border-radius: 8px;
+    }
+
+    .text-secondary-custom {
+        color: #b3b3b3;
+    }
+</style>
+
+@* 2. ESTRUCTURA VISUAL (BOOTSTRAP) *@
+<div class="container py-5">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card payment-card p-4">
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="#1DB954">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.485 17.306c-.216.354-.678.468-1.032.251-2.858-1.745-6.456-2.14-10.693-1.171-.406.092-.813-.162-.905-.568-.092-.406.162-.813.568-.905 4.634-1.06 8.608-.606 11.811 1.35.354.217.468.679.251 1.033zm1.463-3.257c-.272.443-.848.583-1.291.311-3.272-2.012-8.258-2.592-12.126-1.418-.497.151-1.023-.129-1.174-.626-.151-.497.129-1.023.626-1.174 4.417-1.34 9.908-.68 13.654 1.624.443.272.583.848.311 1.291zm.127-3.39c-3.924-2.33-10.388-2.545-14.156-1.4c-.602.183-1.24-.163-1.423-.765-.183-.602.163-1.24.765-1.423 4.318-1.311 11.45-1.059 15.98 1.628.54.32.714 1.014.394 1.554-.32.54-1.014.714-1.554.394z" />
+                        </svg>
+                    </div>
+
+                    <h3 class="fw-bold mb-1">Tu suscripción</h3>
+                    <p class="text-secondary-custom small mb-4">Revisa los detalles antes de pagar</p>
+
+                    <div class="summary-box p-3 mb-4 text-start">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold">Premium Individual</span>
+                            <span class="fw-bold">$@precioPlan</span>
+                        </div>
+                        <small class="text-secondary-custom">1 cuenta Premium</small>
+                        <hr class="border-secondary opacity-25">
+                        <div class="d-flex justify-content-between">
+                            <span>Total hoy</span>
+                            <span class="fw-bold spotify-green">$@precioPlan</span>
+                        </div>
+                    </div>
+
+                    <p class="small text-secondary-custom mb-4">
+                        Paga de forma segura con PayPal:
+                    </p>
+
+                    @* 3. ZONA DONDE SE RENDERIZA PAYPAL *@
+                    <div id="paypal-button-container"></div>
+
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a asp-page="/Premium/Index" class="text-secondary-custom small text-decoration-none">← Volver a elegir plan</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* 4. SCRIPTS DE FUNCIONAMIENTO *@
+@section Scripts {
+    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+
+    <script>
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color:  'blue', // Azul de PayPal que resalta en fondo negro
+                shape:  'pill',
+                label:  'pay'
+            },
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        description: "Spotify Premium - Pago Mensual",
+                        amount: {
+                            value: '@precioPlan' // Usamos la variable de C#
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Acción tras éxito: Redirigir a una página de agradecimiento
+                    window.location.href = "/Premium/Success?name=" + details.payer.name.given_name;
+                });
+            },
+            onCancel: function (data) {
+                console.log("Pago cancelado por el usuario.");
+            }
+        }).render('#paypal-button-container');
+    </script>
+}

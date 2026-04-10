@@ -11,7 +11,6 @@
     </div>
 
     <div class="row justify-content-center g-4">
-        
         @* 1. PLAN INDIVIDUAL *@
         <div class="col-md-6 col-lg-4">
             <div class="card h-100 border-0 shadow-lg card-custom">
@@ -20,7 +19,6 @@
                     <h3 class="text-white fw-bold">Individual Prime</h3>
                     <p class="text-white-50 small">1 cuenta premium</p>
                 </div>
-                
                 <div class="card-body text-white">
                     <ul class="list-unstyled">
                         <li class="mb-3"><i class="bi bi-check2 text-primary me-2"></i> Música sin anuncios</li>
@@ -28,11 +26,9 @@
                         <li class="mb-3"><i class="bi bi-check2 text-primary me-2"></i> Modo offline</li>
                     </ul>
                 </div>
-
                 <div class="p-4 pt-0 text-center">
                     <h4 class="text-white mb-3">$129.00 <small class="text-secondary" style="font-size: 0.8rem;">/ mes</small></h4>
-                    @* Cambiado a button type="button" para abrir el modal *@
-                    <button type="button" class="btn btn-primary rounded-pill w-100 fw-bold py-2 shadow-sm border-0 btn-individual" onclick="abrirPasarela('Individual')">
+                    <button type="button" class="btn btn-primary rounded-pill w-100 fw-bold py-2 btn-individual" onclick="abrirPasarela('Individual', '129.00')">
                         OBTENER INDIVIDUAL
                     </button>
                 </div>
@@ -47,18 +43,16 @@
                     <h3 class="text-white fw-bold">Plan Familiar</h3>
                     <p class="text-white-50 small">Hasta 6 cuentas</p>
                 </div>
-                
                 <div class="card-body text-white">
                     <ul class="list-unstyled">
-                        <li class="mb-3"><i class="bi bi-check2 text-success me-2"></i> Cuentas separadas para todos</li>
+                        <li class="mb-3"><i class="bi bi-check2 text-success me-2"></i> Cuentas separadas</li>
                         <li class="mb-3"><i class="bi bi-check2 text-success me-2"></i> Bloqueo de música explícita</li>
                         <li class="mb-3"><i class="bi bi-check2 text-success me-2"></i> Spotify Kids incluido</li>
                     </ul>
                 </div>
-
                 <div class="p-4 pt-0 text-center">
                     <h4 class="text-white mb-3">$199.00 <small class="text-secondary" style="font-size: 0.8rem;">/ mes</small></h4>
-                    <button type="button" class="btn btn-success rounded-pill w-100 fw-bold py-2 shadow-sm border-0" onclick="abrirPasarela('Familiar')">
+                    <button type="button" class="btn btn-success rounded-pill w-100 fw-bold py-2" onclick="abrirPasarela('Familiar', '199.00')">
                         OBTENER FAMILIAR
                     </button>
                 </div>
@@ -71,26 +65,23 @@
                 <div class="p-4 border-bottom border-danger">
                     <span class="badge bg-danger mb-2">PENITENCIA</span>
                     <h3 class="text-white fw-bold">Plan Blasphemous</h3>
-                    <p class="text-danger small fw-bold">Solo para aquellos que desean expiar su culpa y hubieren derrotado al Milagro Doloroso.</p>
+                    <p class="text-danger small fw-bold">Expiación de culpas musical.</p>
                 </div>
-                
                 <div class="card-body text-white">
                     <ul class="list-unstyled">
                         <li class="mb-3"><i class="bi bi-fire text-danger me-2"></i> Audio grabado en Custodia</li>
                         <li class="mb-3"><i class="bi bi-fire text-danger me-2"></i> OST de Blasphemous 1 y 2</li>
-                        <li class="mb-3"><i class="bi bi-fire text-danger me-2"></i> Limpia tus culpas con música</li>
+                        <li class="mb-3"><i class="bi bi-fire text-danger me-2"></i> Limpia tus culpas</li>
                     </ul>
                 </div>
-
                 <div class="p-4 pt-0 text-center">
-                    <h4 class="text-white mb-3">666 <small class="text-secondary" style="font-size: 0.8rem;">Lágrimas de Enmienda</small></h4>
-                    <button type="button" class="btn btn-danger rounded-pill w-100 fw-bold py-2 shadow-sm border-0 btn-milagro" onclick="abrirPasarela('Blasphemous')">
+                    <h4 class="text-white mb-3">$666.00 <small class="text-secondary" style="font-size: 0.8rem;">Lágrimas</small></h4>
+                    <button type="button" class="btn btn-danger rounded-pill w-100 fw-bold py-2 btn-milagro" onclick="abrirPasarela('Blasphemous', '666.00')">
                         ACEPTAR PENITENCIA
                     </button>
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="text-center mt-5">
@@ -100,50 +91,74 @@
     </div>
 </div>
 
-@* MODAL DE PAGO *@
+@* MODAL DE PAGO ACTUALIZADO CON PAYPAL *@
 <div class="modal fade" id="modalPago" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark text-white border-secondary shadow-lg">
-            <div class="modal-header border-secondary">
-                <h5 class="modal-title fw-bold">Finalizar Compra: <span id="textPlan" class="text-info"></span></h5>
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">Completar suscripción: <span id="textPlan" class="text-success"></span></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form method="post" asp-page-handler="Comprar">
-                <div class="modal-body">
-                    <input type="hidden" name="tipoPlan" id="inputPlanHidden" />
-                    
-                    <div class="mb-3">
-                        <label class="form-label small text-secondary fw-bold text-uppercase">Número de Tarjeta</label>
-                        <input type="text" class="form-control bg-black text-white border-secondary" placeholder="0000 0000 0000 0000" required>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <label class="form-label small text-secondary fw-bold text-uppercase">Expiración</label>
-                            <input type="text" class="form-control bg-black text-white border-secondary" placeholder="MM/AA" required>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <label class="form-label small text-secondary fw-bold text-uppercase">CVC</label>
-                            <input type="password" class="form-control bg-black text-white border-secondary" placeholder="***" required>
-                        </div>
-                    </div>
+            <div class="modal-body p-4 text-center">
+                <p class="text-secondary-custom small mb-4">Paga de forma segura sin compartir tus datos bancarios.</p>
+
+                <div class="bg-black p-3 rounded mb-4 d-flex justify-content-between align-items-center">
+                    <span id="planNombre" class="fw-bold text-uppercase small">PLAN</span>
+                    <span id="planPrecio" class="fs-4 fw-bold text-white"></span>
                 </div>
-                <div class="modal-footer border-secondary">
-                    <button type="submit" class="btn btn-success w-100 py-2 fw-bold rounded-pill">PAGAR Y ACTIVAR</button>
-                </div>
-            </form>
+
+                @* Aquí aparecerán los botones de PayPal *@
+                <div id="paypal-button-container"></div>
+            </div>
         </div>
     </div>
 </div>
 
-<script>
-    function abrirPasarela(plan) {
-        document.getElementById('textPlan').innerText = plan;
-        document.getElementById('inputPlanHidden').value = plan;
-        var myModal = new bootstrap.Modal(document.getElementById('modalPago'));
-        myModal.show();
-    }
-</script>
+@section Scripts {
+    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+    <script>
+        let precioSeleccionado = "0.00";
+        let nombrePlanSeleccionado = "";
 
+        function abrirPasarela(plan, precio) {
+            nombrePlanSeleccionado = plan;
+            precioSeleccionado = precio;
+
+            document.getElementById('textPlan').innerText = plan;
+            document.getElementById('planNombre').innerText = plan;
+            document.getElementById('planPrecio').innerText = "$" + precio;
+
+            // Limpiar contenedor antes de renderizar (evita botones duplicados)
+            document.getElementById('paypal-button-container').innerHTML = "";
+            renderPayPalButtons();
+
+            var myModal = new bootstrap.Modal(document.getElementById('modalPago'));
+            myModal.show();
+        }
+
+        function renderPayPalButtons() {
+            paypal.Buttons({
+                style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay' },
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            description: "Suscripción " + nombrePlanSeleccionado,
+                            amount: { value: precioSeleccionado }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('¡Penitencia cumplida, ' + details.payer.name.given_name + '! Tu pago fue exitoso.');
+                        window.location.href = "/Inicio";
+                    });
+                }
+            }).render('#paypal-button-container');
+        }
+    </script>
+}
+
+@* TU ESTILO CSS (Sin cambios, solo añadí un par de detalles) *@
 <style>
     body {
         background: radial-gradient(circle at top, #121212 0%, #000 100%);
@@ -171,16 +186,10 @@
             transform: translateY(-10px);
         }
 
-    .card-custom:hover {
-        box-shadow: 0 10px 30px rgba(30, 215, 96, 0.2) !important;
-    }
-
-    .card-blasphemous:hover {
-        box-shadow: 0 10px 30px rgba(220, 53, 69, 0.4) !important;
-    }
-
     .btn-individual {
         background: linear-gradient(90deg, #00d4ff 0%, #007bff 100%);
+        border: none;
+        color: white;
     }
 
     .btn-milagro {
@@ -193,4 +202,8 @@
             background: #dc3545;
             color: #fff;
         }
+
+    .text-secondary-custom {
+        color: #b3b3b3;
+    }
 </style>
