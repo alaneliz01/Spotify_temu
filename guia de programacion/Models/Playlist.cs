@@ -10,6 +10,7 @@ namespace spotify.Models
         public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; } = null!;
         public List<PlaylistCancion> PlaylistCanciones { get; set; } = new();
+        public string Fotoplaylist { get; set; } = string.Empty;
     }
 
     public class PlaylistCancion

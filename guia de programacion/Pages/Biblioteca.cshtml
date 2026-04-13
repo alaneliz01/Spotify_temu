@@ -5,79 +5,99 @@
     ViewData["Title"] = "Tu Biblioteca - Spotify";
 }
 
-<div class="flex-grow-1 p-4 text-white">
-    
-    <div class="d-flex gap-2 mb-4">
-        <button class="btn-pill active">Playlists</button>
-        <button class="btn-pill">Artistas</button>
-        <button class="btn-pill">Álbumes</button>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-end mb-3">
-        <h4 class="fw-bold mb-0">Escuchadas recientemente</h4>
-        <a href="#" class="text-secondary small fw-bold text-decoration-none hover-white">Ver todo</a>
+<div class="flex-grow-1 text-white">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Tu Biblioteca</h2>
+        <button class="btn btn-success rounded-pill fw-bold px-4 shadow" data-bs-toggle="modal" data-bs-target="#modalPlaylist">
+            <i class="bi bi-plus-lg me-2"></i> Crear Playlist
+        </button>
     </div>
 
     <div class="row g-4 mb-5">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
-            <div class="liked-songs-card p-4 h-100 d-flex flex-column justify-content-end shadow-lg">
-                <div class="mb-4 mt-2">
-                    <i class="bi bi-heart-fill fs-1 text-white"></i>
+        @* CARD DE FAVORITOS - Mejorada visualmente *@
+        <div class="col-12 col-md-6 col-xl-4">
+            <a asp-page="/Favoritas" class="text-decoration-none">
+                <div class="p-4 rounded-3 h-100 d-flex flex-column justify-content-end shadow-lg liked-songs-banner">
+                    <div class="mb-4">
+                        <div class="heart-icon-container d-flex align-items-center justify-content-center shadow">
+                            <i class="bi bi-heart-fill fs-2 text-white"></i>
+                        </div>
+                    </div>
+                    <h1 class="fw-bolder text-white mb-1" style="font-size: 2.8rem; letter-spacing: -1.5px;">Tus me gusta</h1>
+                    <p class="mb-0 fw-bold text-white opacity-75">Canciones guardadas</p>
                 </div>
-                <h2 class="fw-bold text-white">Tus me gusta</h2>
-                <p class="mb-0 fw-semibold text-white">85 canciones guardadas</p>
-            </div>
+            </a>
         </div>
 
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-            <div class="spotify-card p-3 h-100">
-                <div class="img-container position-relative mb-3">
-                    <img src="https://via.placeholder.com/300/ff6b6b/fff?text=Weeknd" class="img-fluid rounded shadow-lg">
-                    <button class="play-btn shadow"><i class="bi bi-play-fill"></i></button>
-                </div>
-                <h6 class="fw-bold mb-1 text-truncate text-white">Blinding Lights</h6>
-                <p class="text-secondary small">The Weeknd</p>
+        @* LISTA DE PLAYLISTS - Ahora apuntan a la página de detalles *@
+        @foreach (var p in Model.MisPlaylists)
+        {
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                <a asp-page="/Playlist" asp-route-id="@p.Id" class="text-decoration-none">
+                    <div class="card bg-dark border-0 p-3 h-100 hover-card shadow">
+                        <img src="@(string.IsNullOrEmpty(p.Fotoplaylist) ? "/img/default-playlist.png" : p.Fotoplaylist)"
+                             class="card-img-top rounded shadow mb-3" style="aspect-ratio: 1/1; object-fit: cover;">
+                        <div class="card-body p-0">
+                            <h6 class="fw-bold text-white mb-1 text-truncate">@p.Nombre</h6>
+                            <p class="text-secondary small mb-0">Playlist • @p.PlaylistCanciones.Count temas</p>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </div>
+        }
     </div>
+</div>
 
-    <h4 class="fw-bold mb-4">Tus Listas</h4>
-    
-    <div class="row g-2">
-        <div class="col-12">
-            <div class="list-item-container d-flex align-items-center p-2 rounded cursor-pointer">
-                <div class="list-img me-3" style="background: linear-gradient(135deg, #4568dc, #b06ab3);">
-                    <i class="bi bi-music-note-beamed text-white"></i>
+@* MODAL CREAR PLAYLIST *@
+<div class="modal fade" id="modalPlaylist" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary shadow-lg">
+            <form method="post" asp-page-handler="CrearPlaylist" enctype="multipart/form-data">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Nueva Playlist</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="flex-grow-1">
-                    <h6 class="mb-0 fw-bold text-white">Mi lista principal</h6>
-                    <span class="text-secondary small">Playlist • 45 canciones</span>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="small fw-bold text-secondary">NOMBRE</label>
+                        <input type="text" name="nombrePlaylist" class="form-control bg-black text-white border-secondary" placeholder="Mi playlist #1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold text-secondary">PORTADA</label>
+                        <input type="file" name="fotoPlaylist" class="form-control bg-black text-white border-secondary" accept="image/*">
+                    </div>
                 </div>
-            </div>
+                <div class="modal-footer border-0">
+                    <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold shadow">CREAR</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 @section Styles {
     <style>
-        /* Estilos específicos que faltaban en site.css */
-        .btn-pill {
-            background-color: #2a2a2a; color: white; border-radius: 500px;
-            padding: 6px 16px; font-size: 0.85rem; font-weight: 600; border: none;
-            transition: 0.2s;
-        }
-        .btn-pill.active { background-color: white; color: black; }
-        .btn-pill:hover:not(.active) { background-color: #3e3e3e; }
-
-        .liked-songs-card {
+        .liked-songs-banner {
             background: linear-gradient(135deg, #450af5 0%, #8e8ee5 100%);
-            border-radius: 8px; cursor: pointer; transition: 0.3s;
-            min-height: 220px;
+            transition: 0.3s ease;
+            min-height: 240px;
+            cursor: pointer;
         }
-        .liked-songs-card:hover { transform: scale(1.02); }
+        .liked-songs-banner:hover { filter: brightness(1.1); transform: scale(1.01); }
+        
+        .heart-icon-container {
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+            border-radius: 8px;
+        }
 
-        .list-item-container:hover { background-color: rgba(255,255,255,0.1); transition: 0.2s; }
-        .list-img { width: 48px; height: 48px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-        .cursor-pointer { cursor: pointer; }
+        .hover-card { 
+            background-color: #181818 !important; 
+            transition: background-color 0.3s ease, transform 0.3s ease; 
+        }
+        .hover-card:hover { 
+            background-color: #282828 !important; 
+            transform: translateY(-8px); 
+        }
     </style>
 }

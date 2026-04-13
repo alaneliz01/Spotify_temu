@@ -24,16 +24,14 @@ public class IndexModel : PageModel
             return Page();
         }
 
-        // Buscamos en la base de datos comparando Username y Password
         var usuarioValido = await _context.Usuarios
             .FirstOrDefaultAsync(u => u.Username == usuario && u.Password == password);
 
         if (usuarioValido != null)
         {
-            // SEGURIDAD: Limpiamos cualquier sesión anterior para evitar cruce de datos
             HttpContext.Session.Clear();
 
-            // 1. Guardamos el nombre para el saludo
+            HttpContext.Session.SetString("UsuarioId", usuarioValido.Id.ToString());
             HttpContext.Session.SetString("UsuarioNombre", usuarioValido.Nombre);
             HttpContext.Session.SetString("EsAdmin", usuarioValido.EsAdmin.ToString().ToLower());
             HttpContext.Session.SetString("EsPremium", usuarioValido.EsPremium.ToString().ToLower());
@@ -41,7 +39,6 @@ public class IndexModel : PageModel
             HttpContext.Session.SetString("EsVerificado", usuarioValido.EsVerificado ? "True" : "False");
             HttpContext.Session.SetString("UsuarioFoto", usuarioValido.FotoPerfil ?? "");
 
-            // Lógica de Redirección según el Rol
             if (usuarioValido.EsAdmin)
             {
                 return RedirectToPage("/Admin/Panel");

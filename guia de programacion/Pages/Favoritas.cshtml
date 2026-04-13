@@ -2,71 +2,136 @@
 @model spotify.Pages.FavoritasModel
 @{
     ViewData["ActivePage"] = "favoritas";
-    ViewData["Title"] = "Favoritas - SPOTIFY";
+    ViewData["Title"] = "Tus Me Gusta - SPOTIFY";
 }
 
-<div class="favoritas-container p-4 rounded-3" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 50%, #c44569 100%); min-height: 100%;">
-    
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold text-white">Tus Favoritas ❤️</h1>
-        <a href="/" class="btn btn-dark rounded-pill px-3">
-            <i class="bi bi-arrow-left"></i>
-        </a>
+<div class="favoritas-wrapper">
+    @* --- HEADER COMPACTO ELEVADO (IGUAL A PLAYLISTS) --- *@
+    <div class="favoritas-header-card d-flex align-items-end p-4 gap-4">
+        @* Cuadro de corazón con degradado neutro elegante *@
+        <div class="header-image-card shadow-lg d-flex align-items-center justify-content-center" 
+             style="background: linear-gradient(135deg, #4b5563, #1f2937);">
+            <i class="bi bi-heart-fill text-white" style="font-size: 4rem;"></i>
+        </div>
+        
+        <div class="header-text-content">
+            <span class="text-white fw-bold x-small text-uppercase" style="letter-spacing: 1px;">Playlist</span>
+            <h1 class="display-2 fw-bold text-white mb-0">Tus me gusta</h1>
+            <div class="d-flex align-items-center gap-2 mt-1">
+                <span class="fw-bold text-white">@HttpContext.Session.GetString("UsuarioNombre")</span>
+                <span class="text-white-50 fw-bold">• @Model.MisFavoritos.Count canciones</span>
+            </div>
+        </div>
     </div>
 
-    <p class="text-white-50 mb-5">Las canciones que más te gustan, todas en un solo lugar.</p>
+    @* --- CONTROLES DE REPRODUCCIÓN --- *@
+    <div class="px-4 py-3 d-flex align-items-center">
+        @if (Model.MisFavoritos.Any())
+        {
+            <a asp-page="/Reproductor" 
+               asp-route-id="@Model.MisFavoritos.First().CancionId" 
+               asp-route-contexto="favoritos" 
+               class="btn btn-success rounded-circle p-0 d-flex align-items-center justify-content-center shadow play-main-btn" 
+               style="width: 50px; height: 50px;">
+                <i class="bi bi-play-fill fs-3 text-black"></i>
+            </a>
+        }
+    </div>
 
-    <div class="row g-4">
-        <div class="col-md-4 col-lg-3">
-            <div class="card bg-dark border-0 text-white h-100 shadow">
-                <img src="https://via.placeholder.com/300x200/fd79a8/fff?text=Pop" class="card-img-top">
-                <div class="card-body">
-                    <h5>Pop Hits</h5>
-                    <p class="text-white-50">Tus favoritas del momento</p>
-                    <button class="btn btn-success w-100 rounded-pill">
-                        <i class="bi bi-play-fill"></i> Reproducir
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-lg-3">
-            <div class="card bg-dark border-0 text-white h-100 shadow">
-                <img src="https://via.placeholder.com/300x200/e17055/fff?text=Indie" class="card-img-top">
-                <div class="card-body">
-                    <h5>Indie Vibes</h5>
-                    <p class="text-white-50">Sonidos alternativos</p>
-                    <button class="btn btn-success w-100 rounded-pill">
-                        <i class="bi bi-play-fill"></i> Reproducir
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-lg-3">
-            <div class="card bg-dark border-0 text-white h-100 shadow">
-                <img src="https://via.placeholder.com/300x200/6c5ce7/fff?text=Rock" class="card-img-top">
-                <div class="card-body">
-                    <h5>Rock Mix</h5>
-                    <p class="text-white-50">Clásicos y modernos</p>
-                    <button class="btn btn-success w-100 rounded-pill">
-                        <i class="bi bi-play-fill"></i> Reproducir
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-lg-3">
-            <div class="card bg-dark border-0 text-white h-100 shadow">
-                <img src="https://via.placeholder.com/300x200/00cec9/000?text=Chill" class="card-img-top">
-                <div class="card-body">
-                    <h5>Chill Mix</h5>
-                    <p class="text-white-50">Para relajarte</p>
-                    <button class="btn btn-success w-100 rounded-pill">
-                        <i class="bi bi-play-fill"></i> Reproducir
-                    </button>
-                </div>
-            </div>
+    @* --- TABLA DE CANCIONES --- *@
+    <div class="px-4 pb-5">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle mb-0" style="--bs-table-bg: transparent;">
+                <thead>
+                    <tr class="text-secondary small text-uppercase border-bottom border-secondary border-opacity-25">
+                        <th style="width: 40px;" class="py-2">#</th>
+                        <th class="py-2">Título</th>
+                        <th class="py-2">Álbum</th>
+                        <th class="py-2 text-end"><i class="bi bi-clock"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1; }
+                    @if (Model.MisFavoritos.Any())
+                    {
+                        @foreach (var item in Model.MisFavoritos)
+                        {
+                            <tr class="track-row" onclick="window.location.href='/Reproductor/@item.CancionId?contexto=favoritos'">
+                                <td class="text-secondary text-center small">
+                                    <span class="index-num">@i</span>
+                                    <i class="bi bi-play-fill text-white d-none play-icon-row"></i>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <img src="@item.Cancion.RutaPortada" class="rounded shadow-sm" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <div>
+                                            <p class="mb-0 text-white fw-bold song-title small">@item.Cancion.Titulo</p>
+                                            <p class="mb-0 text-secondary x-small">@item.Cancion.Artista</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-secondary small">@item.Cancion.Album</td>
+                                <td class="text-secondary text-end small">@item.Cancion.Duracion.ToString(@"m\:ss")</td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center py-5">
+                                <i class="bi bi-music-note-beamed fs-1 text-secondary mb-3 d-block"></i>
+                                <p class="text-secondary">Aún no tienes canciones favoritas.</p>
+                                <a href="/inicio" class="btn btn-outline-light rounded-pill px-4 fw-bold btn-sm">Explorar música</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
+@section Styles {
+    <style>
+        .favoritas-wrapper { 
+            background: linear-gradient(to bottom, #2a2a2a 0%, #121212 350px); 
+            min-height: 100vh; 
+        }
+        
+        .favoritas-header-card { 
+            padding-top: 60px !important; /* Alineado con el resto de páginas */
+        }
+
+        .header-image-card { 
+            width: 190px; 
+            height: 190px; 
+            min-width: 190px; 
+            border-radius: 4px; 
+            overflow: hidden; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5); 
+        }
+
+        .header-text-content h1 { 
+            font-size: clamp(2rem, 6vw, 4.5rem); 
+            letter-spacing: -2px; 
+            line-height: 1.1; 
+        }
+
+        .x-small { font-size: 0.75rem; }
+
+        /* Estilos de la tabla iguales a Perfil/Playlist */
+        .track-row { cursor: pointer; transition: background 0.2s ease; }
+        .track-row:hover { background: rgba(255,255,255,0.1) !important; }
+        
+        .track-row:hover .index-num { display: none; }
+        .track-row:hover .play-icon-row { display: inline-block !important; }
+        
+        .track-row:hover .song-title { 
+            color: #1db954 !important; 
+        }
+
+        .play-main-btn { transition: transform 0.2s ease; }
+        .play-main-btn:hover { transform: scale(1.05); background-color: #1fdf64 !important; }
+    </style>
+}

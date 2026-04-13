@@ -12,64 +12,84 @@ namespace spotify.Pages
         public ReproductorModel(ApplicationDbContext context) => _context = context;
 
         public Cancion Cancion { get; set; }
-        public List<Cancion> ListaReproduccion { get; set; }
+        public List<Cancion> ListaReproduccion { get; set; } = new();
+        public List<Playlist> MisPlaylists { get; set; } = new();
+        public List<int> PlaylistsIdsConEstaCancion { get; set; } = new();
         public bool ArtistaVerificado { get; set; }
         public string FotoArtista { get; set; }
         public int SiguienteCancionId { get; set; }
         public int AnteriorCancionId { get; set; }
+        public bool EsFavoritaDelUsuario { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public double TiempoActual { get; set; }
-
         [BindProperty(SupportsGet = true)]
-        public string Contexto { get; set; } // "artista" o "genero"
-
+        public string Contexto { get; set; }
         [BindProperty(SupportsGet = true)]
-        public string Valor { get; set; } // Nombre del artista o género
+        public string Valor { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            // 1. Filtrar lista según el contexto
-            IQueryable<Cancion> query = _context.Canciones;
+            var userIdStr = HttpContext.Session.GetString("UsuarioId");
+            int? usuarioId = !string.IsNullOrEmpty(userIdStr) ? int.Parse(userIdStr) : null;
 
-            if (Contexto == "artista" && !string.IsNullOrEmpty(Valor))
-                query = query.Where(c => c.Artista == Valor);
-            else if (Contexto == "genero" && !string.IsNullOrEmpty(Valor))
-                query = query.Where(c => c.Genero == Valor);
-
-            ListaReproduccion = await query.ToListAsync();
-            Cancion = await _context.Canciones.FirstOrDefaultAsync(c => c.Id == id);
-
-            if (Cancion == null) return RedirectToPage("/Inicio");
-
-            // 2. Navegación sobre la lista filtrada
-            var index = ListaReproduccion.FindIndex(c => c.Id == id);
-            if (index == -1)
-            { // Por si acaso la canción no está en el contexto
+            // CARGAR LISTA SEGÚN CONTEXTO
+            if (Contexto == "playlist" && !string.IsNullOrEmpty(Valor))
+            {
+                int pId = int.Parse(Valor);
+                ListaReproduccion = await _context.PlaylistCanciones.Where(pc => pc.PlaylistId == pId).Include(pc => pc.Cancion).Select(pc => pc.Cancion).ToListAsync();
+            }
+            else if (Contexto == "favoritos" && usuarioId.HasValue)
+            {
+                ListaReproduccion = await _context.Favoritos.Where(f => f.UsuarioId == usuarioId.Value).Include(f => f.Cancion).Select(f => f.Cancion).ToListAsync();
+            }
+            else
+            {
                 ListaReproduccion = await _context.Canciones.ToListAsync();
-                index = ListaReproduccion.FindIndex(c => c.Id == id);
             }
 
+            Cancion = await _context.Canciones.FirstOrDefaultAsync(c => c.Id == id);
+            if (Cancion == null) return RedirectToPage("/Inicio");
+
+            if (usuarioId.HasValue)
+            {
+                EsFavoritaDelUsuario = await _context.Favoritos.AnyAsync(f => f.UsuarioId == usuarioId.Value && f.CancionId == id);
+                MisPlaylists = await _context.Playlists.Where(p => p.UsuarioId == usuarioId.Value).ToListAsync();
+                PlaylistsIdsConEstaCancion = await _context.PlaylistCanciones.Where(pc => pc.CancionId == id).Select(pc => pc.PlaylistId).ToListAsync();
+            }
+
+            var index = ListaReproduccion.FindIndex(c => c.Id == id);
+            if (index == -1) index = 0;
             SiguienteCancionId = index < ListaReproduccion.Count - 1 ? ListaReproduccion[index + 1].Id : ListaReproduccion[0].Id;
             AnteriorCancionId = index > 0 ? ListaReproduccion[index - 1].Id : ListaReproduccion.Last().Id;
 
-            // 3. Info del Artista
             var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Nombre.ToLower() == Cancion.Artista.ToLower());
             ArtistaVerificado = user?.EsVerificado ?? false;
-            FotoArtista = user?.FotoPerfil ?? "https://via.placeholder.com/150/282828/ffffff?text=U";
+            FotoArtista = user?.FotoPerfil ?? "/img/default-user.png";
 
             return Page();
         }
 
+        public async Task<IActionResult> OnPostAgregarAPlaylistAsync(int cancionId, int playlistId, double tiempo, string contexto, string valor)
+        {
+            var pc = await _context.PlaylistCanciones.FirstOrDefaultAsync(x => x.PlaylistId == playlistId && x.CancionId == cancionId);
+            if (pc != null) _context.PlaylistCanciones.Remove(pc);
+            else _context.PlaylistCanciones.Add(new PlaylistCancion { PlaylistId = playlistId, CancionId = cancionId });
+
+            await _context.SaveChangesAsync();
+            return RedirectToPage(new { id = cancionId, tiempoActual = tiempo, contexto, valor });
+        }
+
         public async Task<IActionResult> OnPostToggleFavoritoAsync(int id, double tiempo, string contexto, string valor)
         {
-            var cancion = await _context.Canciones.FindAsync(id);
-            if (cancion != null)
-            {
-                cancion.EsFavorito = !cancion.EsFavorito;
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToPage(new { id = id, tiempoActual = tiempo, contexto = contexto, valor = valor });
+            var userIdStr = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(userIdStr)) return RedirectToPage("/Index");
+            int uId = int.Parse(userIdStr);
+            var fav = await _context.Favoritos.FirstOrDefaultAsync(f => f.UsuarioId == uId && f.CancionId == id);
+            if (fav != null) _context.Favoritos.Remove(fav);
+            else _context.Favoritos.Add(new Favorito { UsuarioId = uId, CancionId = id });
+            await _context.SaveChangesAsync();
+            return RedirectToPage(new { id, tiempoActual = tiempo, contexto, valor });
         }
     }
 }
