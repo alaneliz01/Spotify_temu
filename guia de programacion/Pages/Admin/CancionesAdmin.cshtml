@@ -1,0 +1,167 @@
+﻿@page
+@model spotify.Pages.Admin.CancionesAdminModel
+@{
+    ViewData["Title"] = "Administrar Biblioteca";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom, #121212, #000000);
+        min-height: 100vh;
+        color: white;
+    }
+
+    .manage-container {
+        background-color: #181818;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    /* Estilos para la tabla estilo Spotify */
+    .table {
+        color: #b3b3b3;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+    }
+
+        .table thead th {
+            border: none;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: #b3b3b3;
+        }
+
+        .table tbody tr {
+            background-color: rgba(255,255,255,0.03);
+            transition: 0.3s;
+        }
+
+            .table tbody tr:hover {
+                background-color: rgba(255,255,255,0.1);
+                color: white;
+            }
+
+        .table td {
+            vertical-align: middle;
+            border: none;
+            padding: 12px;
+        }
+
+            .table td:first-child {
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+            }
+
+            .table td:last-child {
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
+            }
+
+    .img-mini {
+        width: 45px;
+        height: 45px;
+        border-radius: 4px;
+        object-fit: cover;
+        margin-right: 15px;
+    }
+
+    .btn-delete {
+        background-color: transparent;
+        color: #b3b3b3;
+        border: 1px solid #b3b3b3;
+        font-weight: bold;
+        border-radius: 50px;
+        transition: 0.3s;
+        font-size: 0.8rem;
+    }
+
+        .btn-delete:hover {
+            background-color: #e91e63;
+            border-color: #e91e63;
+            color: white;
+            transform: scale(1.05);
+        }
+
+    .btn-regresar {
+        border: 1px solid #555;
+        color: white;
+        font-weight: bold;
+        border-radius: 50px;
+        transition: 0.3s;
+    }
+
+        .btn-regresar:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: white;
+            color: white;
+        }
+</style>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="manage-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold m-0">Gestionar Canciones</h3>
+                    <a asp-page="/Inicio" class="btn btn-regresar px-4">VOLVER</a>
+                </div>
+
+                <p class="text-secondary small mb-4">Como administrador, puedes revisar y eliminar el contenido de la plataforma.</p>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%">#</th>
+                                <th style="width: 45%">TÍTULO</th>
+                                <th style="width: 30%">GÉNERO</th>
+                                <th style="width: 20%" class="text-end">ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Canciones != null && Model.Canciones.Any())
+                            {
+                                int i = 1;
+                                foreach (var cancion in Model.Canciones)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="@cancion.RutaPortada" class="img-mini" alt="Portada">
+                                                <div>
+                                                    <div class="text-white fw-bold">@cancion.Titulo</div>
+                                                    <div class="small">@cancion.Artista</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>@cancion.Genero</td>
+                                        <td class="text-end">
+                                            <form method="post" asp-page-handler="Eliminar" asp-route-id="@cancion.Id">
+                                                <button type="submit" class="btn btn-delete px-3 py-1"
+                                                        onclick="return confirm('¿Estás seguro de que deseas eliminar esta canción?')">
+                                                    ELIMINAR
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center py-5 text-secondary">
+                                        No hay canciones disponibles en la biblioteca.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
