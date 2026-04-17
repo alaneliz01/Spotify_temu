@@ -5,59 +5,105 @@
 }
 
 <style>
-    .user-row {
-        transition: background-color 0.3s ease;
-        border-bottom: 1px solid #282828 !important;
+    /* Estructura Base */
+    .spotify-card {
+        background: rgba(18, 18, 18, 0.98);
+        backdrop-filter: blur(15px);
+        border-radius: 20px !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     }
-    .user-row:hover {
-        background-color: #282828 !important;
+
+    /* Permitir que los menús floten sin cortarse */
+    .table-responsive { overflow: visible !important; }
+
+    .user-row { transition: all 0.2s ease; border-bottom: 1px solid rgba(255, 255, 255, 0.02) !important; }
+    .user-row:hover { background-color: rgba(255, 255, 255, 0.04) !important; }
+
+    /* Avatares Modernos */
+    .img-admin-profile { width: 48px; height: 48px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1); }
+    .avatar-placeholder { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #1db954, #191414); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
+
+    /* --- DISEÑO DE PLANES (EL CORAZÓN DEL DROPDOWN) --- */
+    .dropdown { position: relative; }
+
+    .dropdown-menu-planes { 
+        background-color: #121212; 
+        border: 1px solid #333; 
+        border-radius: 18px;
+        min-width: 260px;
+        padding: 14px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+        display: none; /* Oculto por defecto */
+        position: absolute;
+        right: 0;
+        top: 100%;
+        z-index: 1050;
+        margin-top: 10px;
     }
-    .img-admin-profile {
-        width: 45px;
-        height: 45px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 2px solid #333;
+
+    /* MAGIA PURA CSS: Abre el menú al hacer clic y lo cierra al salir */
+    .dropdown:focus-within .dropdown-menu-planes {
+        display: block !important;
     }
-    .avatar-placeholder {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #1db954, #191414);
+
+    .dropdown-item-plane {
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        color: white;
+        justify-content: space-between;
+        padding: 12px 16px;
+        font-weight: 700;
+        border-radius: 12px;
+        transition: 0.2s;
+        border: 1px solid transparent;
+        margin-bottom: 8px;
+        width: 100%;
+        text-align: left;
     }
-    .text-verified { color: #00f2ff !important; }
-    .badge-admin { background-color: #f5b82e; color: #000; font-weight: 800; letter-spacing: 1px; }
+
+    /* Estilos Temáticos de Planes */
+    .plan-item-individual { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); color: #00f2ff !important; }
+    .plan-item-individual:hover { background: #00f2ff !important; color: #000 !important; transform: translateX(-5px); }
+
+    .plan-item-familiar { background: rgba(29, 185, 84, 0.05); border: 1px solid rgba(29, 185, 84, 0.2); color: #1db954 !important; }
+    .plan-item-familiar:hover { background: #1db954 !important; color: #000 !important; transform: translateX(-5px); }
+
+    .plan-item-blasphemous { background: rgba(255, 77, 77, 0.05); border: 1px solid rgba(255, 77, 77, 0.2); color: #ff4d4d !important; }
+    .plan-item-blasphemous:hover { background: #ff4d4d !important; color: #fff !important; transform: translateX(-5px); }
+
+    .plan-item-free { background: rgba(255, 255, 255, 0.03); color: #888 !important; margin-top: 10px; font-size: 0.75rem !important; }
+    .plan-item-free:hover { background: #fff !important; color: #000 !important; }
+
+    /* Botones de la tabla */
+    .btn-plan-individual { border: 1.5px solid #00f2ff !important; color: #00f2ff !important; }
+    .btn-plan-familiar { border: 1.5px solid #1db954 !important; color: #1db954 !important; }
+    .btn-plan-blasphemous { border: 1.5px solid #ff4d4d !important; color: #ff4d4d !important; }
+    
+    .btn-action { transition: 0.2s; }
+    .btn-action:hover { transform: translateY(-3px); filter: brightness(1.2); }
+    .text-verified { color: #00f2ff !important; filter: drop-shadow(0 0 5px rgba(0,242,255,0.3)); }
 </style>
 
 <div class="main-content p-5">
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-end mb-5">
         <div>
-            <h1 class="fw-bold text-white mb-1">Panel de Usuarios</h1>
-            <p class="text-secondary small">Administra los permisos, planes y verificación de la comunidad.</p>
+            <h1 class="display-5 fw-bold text-white mb-2">Comunidad</h1>
+            <p class="text-secondary mb-0">Gestión de privilegios sin scripts, solo potencia C#.</p>
         </div>
-        <div class="d-flex gap-2">
-            <a asp-page="/Admin/Panel" class="btn btn-outline-success rounded-pill px-4 fw-bold">
-                <i class="bi bi-music-note-list me-2"></i>Panel de Música
-            </a>
-            <a asp-page="/inicio" class="btn btn-outline-light rounded-pill px-4 fw-bold border-secondary">
-                Volver al Inicio
-            </a>
+        <div class="d-flex gap-3">
+            <a asp-page="/Admin/Panel" class="btn btn-outline-success rounded-pill px-4 fw-bold btn-action shadow">Catálogo</a>
+            <a asp-page="/inicio" class="btn btn-outline-light rounded-pill px-4 fw-bold border-secondary btn-action shadow">Inicio</a>
         </div>
     </div>
 
-    <div class="spotify-card shadow-lg" style="background-color: #121212; border-radius: 15px; border: 1px solid #282828; overflow: hidden;">
+    <div class="spotify-card p-2">
         <div class="table-responsive">
             <table class="table table-dark align-middle mb-0">
                 <thead>
-                    <tr class="text-secondary" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; background-color: #181818;">
-                        <th class="border-0 px-4 py-3">Usuario</th>
-                        <th class="border-0 py-3">Estado / Plan</th>
-                        <th class="border-0 text-end px-4 py-3">Gestión de Cuenta</th>
+                    <tr class="text-secondary" style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px;">
+                        <th class="border-0 px-4 py-4">Usuario</th>
+                        <th class="border-0 py-4">Plan Actual</th>
+                        <th class="border-0 text-end px-4 py-4">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,56 +112,31 @@
                         <tr class="user-row">
                             <td class="px-4 py-3">
                                 <div class="d-flex align-items-center">
-                                    @* Lógica de Imagen *@
-                                    @if (!string.IsNullOrEmpty(user.FotoPerfil))
-                                    {
-                                        <img src="@user.FotoPerfil" class="img-admin-profile me-3 shadow" />
+                                    @if (!string.IsNullOrEmpty(user.FotoPerfil)) {
+                                        <img src="@user.FotoPerfil" class="img-admin-profile me-3 shadow-lg" />
+                                    } else {
+                                        <div class="avatar-placeholder me-3 shadow-lg">@user.Nombre.Substring(0, 1).ToUpper()</div>
                                     }
-                                    else
-                                    {
-                                        <div class="avatar-placeholder me-3 shadow">
-                                            @user.Nombre.Substring(0, 1).ToUpper()
-                                        </div>
-                                    }
-
                                     <div class="d-flex flex-column">
                                         <div class="d-flex align-items-center gap-2">
                                             <span class="fw-bold text-white fs-6">@user.Nombre</span>
-                                            @if (user.EsVerificado)
-                                            {
-                                                <i class="bi bi-patch-check-fill text-verified" title="Verificado"></i>
-                                            }
+                                            @if (user.EsVerificado) { <i class="bi bi-patch-check-fill text-verified"></i> }
                                         </div>
-                                        <span class="text-secondary" style="font-size: 0.75rem;">ID Cuenta: #@user.Id</span>
+                                        <span class="text-secondary small">ID: #@user.Id.ToString("D4")</span>
                                     </div>
                                 </div>
                             </td>
 
                             <td>
                                 <div class="d-flex flex-wrap gap-2">
-                                    @if (user.EsAdmin)
-                                    {
-                                        <span class="badge badge-admin px-3 rounded-pill">STAFF</span>
-                                    }
-                                    
-                                    @if (user.EsVerificado)
-                                    {
-                                        <span class="badge bg-info bg-opacity-10 text-verified border border-info border-opacity-25 px-3 rounded-pill" style="font-size: 0.7rem;">
-                                            ARTISTA
+                                    @if (user.EsAdmin) { <span class="badge bg-warning text-dark rounded-pill">ADMIN</span> }
+                                    @if (user.EsPremium) {
+                                        var badgeClass = user.Plan == "Blasphemous" ? "danger" : (user.Plan == "Individual" ? "info" : "success");
+                                        <span class="badge bg-@badgeClass bg-opacity-10 text-@badgeClass border border-@badgeClass border-opacity-25 rounded-pill">
+                                            @user.Plan.ToUpper()
                                         </span>
-                                    }
-
-                                    @if (user.EsPremium)
-                                    {
-                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 rounded-pill" style="font-size: 0.7rem;">
-                                            <i class="bi bi-star-fill me-1"></i> @user.Plan.ToUpper()
-                                        </span>
-                                    }
-                                    else if (!user.EsAdmin)
-                                    {
-                                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-3 rounded-pill" style="font-size: 0.7rem;">
-                                            FREE
-                                        </span>
+                                    } else {
+                                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill">FREE</span>
                                     }
                                 </div>
                             </td>
@@ -123,33 +144,72 @@
                             <td class="text-end px-4">
                                 @if (user.Id != 1)
                                 {
-                                    <div class="d-flex justify-content-end gap-2">
-                                        <form method="post" asp-page-handler="ToggleVerificado" asp-route-id="@user.Id">
-                                            <button class="btn btn-sm @(user.EsVerificado ? "btn-outline-info" : "btn-info text-dark") fw-bold rounded-pill px-3 shadow-sm">
-                                                @(user.EsVerificado ? "Quitar Verificado" : "Verificar")
+                                    <div class="d-flex justify-content-end gap-3 align-items-center">
+                                        
+                                        @* SELECTOR DE PLANES *@
+                                        @{
+                                            var btnClass = "btn-outline-secondary";
+                                            if (user.EsPremium) {
+                                                if (user.Plan == "Individual") btnClass = "btn-plan-individual";
+                                                else if (user.Plan == "Blasphemous") btnClass = "btn-plan-blasphemous";
+                                                else btnClass = "btn-plan-familiar";
+                                            }
+                                        }
+
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm @btnClass fw-bold rounded-pill px-4 btn-action shadow-sm" type="button">
+                                                @(user.EsPremium ? user.Plan : "Asignar Plan")
+                                            </button>
+                                            
+                                            <ul class="dropdown-menu-planes shadow-lg">
+                                                <li class="text-secondary small fw-bold text-uppercase pb-3 text-center" style="letter-spacing: 1px;">Suscripciones</li>
+                                                <li>
+                                                    <form method="post" asp-page-handler="AsignarPlan" asp-route-id="@user.Id" asp-route-plan="Individual">
+                                                        <button type="submit" class="dropdown-item-plane plan-item-individual">
+                                                            <span>Individual Prime</span> <i class="bi bi-person-badge"></i>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form method="post" asp-page-handler="AsignarPlan" asp-route-id="@user.Id" asp-route-plan="Familiar">
+                                                        <button type="submit" class="dropdown-item-plane plan-item-familiar">
+                                                            <span>Plan Familiar</span> <i class="bi bi-people"></i>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form method="post" asp-page-handler="AsignarPlan" asp-route-id="@user.Id" asp-route-plan="Blasphemous">
+                                                        <button type="submit" class="dropdown-item-plane plan-item-blasphemous">
+                                                            <span>Blasphemous</span> <i class="bi bi-fire"></i>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form method="post" asp-page-handler="AsignarPlan" asp-route-id="@user.Id" asp-route-plan="Gratis">
+                                                        <button type="submit" class="dropdown-item-plane plan-item-free">
+                                                            <span>Convertir a Free</span> <i class="bi bi-dash-circle"></i>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        @* Acciones Rápidas *@
+                                        <form method="post" asp-page-handler="ToggleVerificado" asp-route-id="@user.Id" class="m-0">
+                                            <button type="submit" class="btn btn-sm border-0 btn-action shadow-none">
+                                                <i class="bi @(user.EsVerificado ? "bi-patch-check-fill text-info" : "bi-patch-check text-secondary") fs-5"></i>
                                             </button>
                                         </form>
 
-                                        <form method="post" asp-page-handler="TogglePremium" asp-route-id="@user.Id">
-                                            <button class="btn btn-sm @(user.EsPremium ? "btn-outline-success" : "btn-success text-dark") fw-bold rounded-pill px-3 shadow-sm">
-                                                @(user.EsPremium ? "Bajar a Gratis" : "Hacer Premium")
-                                            </button>
-                                        </form>
-
-                                        <form method="post" asp-page-handler="Eliminar" asp-route-id="@user.Id"
-                                              onsubmit="return confirm('¿Seguro que deseas eliminar a @user.Nombre?');">
-                                            <button class="btn btn-sm btn-outline-danger rounded-circle p-2" title="Eliminar Usuario">
-                                                <i class="bi bi-trash3 px-1"></i>
+                                        <form method="post" asp-page-handler="Eliminar" asp-route-id="@user.Id" class="m-0" onsubmit="return confirm('¿Eliminar cuenta?')">
+                                            <button type="submit" class="btn btn-sm border-0 btn-action text-danger shadow-none">
+                                                <i class="bi bi-trash3 fs-6"></i>
                                             </button>
                                         </form>
                                     </div>
                                 }
-                                else
-                                {
-                                    <div class="d-flex justify-content-end align-items-center gap-2 text-white-50">
-                                        <i class="bi bi-lock-fill"></i>
-                                        <span class="small fst-italic">Sistema Protegido</span>
-                                    </div>
+                                else {
+                                    <div class="px-4 py-2 text-white-50 small fw-bold">PROPIETARIO</div>
                                 }
                             </td>
                         </tr>

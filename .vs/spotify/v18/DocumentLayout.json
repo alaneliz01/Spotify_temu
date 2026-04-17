@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\admin\\listausuarios.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\admin\\listausuarios.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\admin\\listausuarios.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\admin\\listausuarios.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\reproductor.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\reproductor.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\admin\\panel.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\admin\\panel.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\perfil.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\perfil.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -11,44 +27,16 @@
       "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\perfilview.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\admin\\cancionesadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\admin\\cancionesadmin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\admin\\panel.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\admin\\panel.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\perfil.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\perfil.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\premium\\planes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\premium\\planes.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\reproductor.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\reproductor.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\reproductor.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\reproductor.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\playlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\playlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\favoritas.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\favoritas.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\playlist.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -99,10 +87,6 @@
       "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\cancionverificado.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\admin\\cancionesadmin.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\admin\\cancionesadmin.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\services\\azureblobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\services\\azureblobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -133,10 +117,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\createuser.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\createuser.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|c:\\users\\alan\\source\\repos\\spotify_temu\\guia de programacion\\pages\\admin\\panel.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4B149F1-8853-4D38-90A7-5093F2968129}|guia de programacion\\spotify.csproj|solutionrelative:guia de programacion\\pages\\admin\\panel.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SpotifyCloneDB/True/SqlTable/dbo.Canciones.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
@@ -189,11 +169,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "Reproductor.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Reproductor.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Reproductor.cshtml.cs",
@@ -202,12 +182,11 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-10T21:40:49.964Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 2,
               "Title": "Reproductor.cshtml",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Reproductor.cshtml",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Reproductor.cshtml",
@@ -220,20 +199,45 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Perfil.cshtml",
-              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Perfil.cshtml",
-              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Perfil.cshtml",
-              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Perfil.cshtml*",
-              "RelativeToolTip": "guia de programacion\\Pages\\Perfil.cshtml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-10T20:38:43.738Z",
+              "DocumentIndex": 1,
+              "Title": "ListaUsuarios.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\ListaUsuarios.cshtml.cs",
+              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Admin\\ListaUsuarios.cshtml.cs",
+              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\ListaUsuarios.cshtml.cs",
+              "RelativeToolTip": "guia de programacion\\Pages\\Admin\\ListaUsuarios.cshtml.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAswCYAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-17T04:19:32.972Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "ListaUsuarios.cshtml",
+              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\ListaUsuarios.cshtml",
+              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Admin\\ListaUsuarios.cshtml",
+              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\ListaUsuarios.cshtml",
+              "RelativeToolTip": "guia de programacion\\Pages\\Admin\\ListaUsuarios.cshtml",
+              "ViewState": "AgIAAL8AAAAAAAAAAAAiwNwAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-17T04:13:33.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Panel.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\Panel.cshtml.cs",
+              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Admin\\Panel.cshtml.cs",
+              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\Panel.cshtml.cs",
+              "RelativeToolTip": "guia de programacion\\Pages\\Admin\\Panel.cshtml.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T07:32:54.051Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "PerfilView.cshtml",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\PerfilView.cshtml",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\PerfilView.cshtml",
@@ -241,89 +245,23 @@
               "RelativeToolTip": "guia de programacion\\Pages\\PerfilView.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAHIAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-10T21:44:54.763Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "guia de programacion\\Pages\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAJIAAAAAAAAAAAAQwKEAAABYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T10:27:42.345Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Perfil.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Perfil.cshtml.cs",
-              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Perfil.cshtml.cs",
-              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Perfil.cshtml.cs",
-              "RelativeToolTip": "guia de programacion\\Pages\\Perfil.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T20:38:50.825Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Favoritas.cshtml",
-              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Favoritas.cshtml",
-              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Favoritas.cshtml",
-              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Favoritas.cshtml",
-              "RelativeToolTip": "guia de programacion\\Pages\\Favoritas.cshtml",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAgwH4AAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-12T23:42:18.228Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "planes.cshtml",
-              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Premium\\planes.cshtml",
-              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Premium\\planes.cshtml",
-              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Premium\\planes.cshtml",
-              "RelativeToolTip": "guia de programacion\\Pages\\Premium\\planes.cshtml",
-              "ViewState": "AgIAAKwAAAAAAAAAAAAwwNAAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T09:10:07.046Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T21:44:54.763Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "CancionesAdmin.cshtml",
-              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\CancionesAdmin.cshtml",
-              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Admin\\CancionesAdmin.cshtml",
-              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\CancionesAdmin.cshtml",
-              "RelativeToolTip": "guia de programacion\\Pages\\Admin\\CancionesAdmin.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABhAAAAAAAAAA==",
+              "Title": "Perfil.cshtml",
+              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Perfil.cshtml",
+              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Perfil.cshtml",
+              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Perfil.cshtml",
+              "RelativeToolTip": "guia de programacion\\Pages\\Perfil.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T07:17:48.558Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T20:38:43.738Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Panel.cshtml",
-              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\Panel.cshtml",
-              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Admin\\Panel.cshtml",
-              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\Panel.cshtml",
-              "RelativeToolTip": "guia de programacion\\Pages\\Admin\\Panel.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T07:17:48.587Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Program.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Program.cs",
@@ -331,12 +269,11 @@
               "RelativeToolTip": "guia de programacion\\Program.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAIwBkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T07:17:48.581Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-05T07:17:48.581Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 39,
               "Title": "20260413000611_AgregarFotoPlaylis.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Migrations\\20260413000611_AgregarFotoPlaylis.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Migrations\\20260413000611_AgregarFotoPlaylis.cs",
@@ -348,7 +285,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 9,
               "Title": "Playlist.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Playlist.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Playlist.cshtml.cs",
@@ -360,7 +297,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 8,
               "Title": "Playlist.cshtml",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Playlist.cshtml",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Playlist.cshtml",
@@ -372,7 +309,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 15,
               "Title": "Index.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Index.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Index.cshtml.cs",
@@ -384,7 +321,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 10,
               "Title": "Biblioteca.cshtml",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Biblioteca.cshtml",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Biblioteca.cshtml",
@@ -396,7 +333,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 16,
               "Title": "Favoritas.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Favoritas.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Favoritas.cshtml.cs",
@@ -408,7 +345,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 11,
               "Title": "Biblioteca.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Biblioteca.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Biblioteca.cshtml.cs",
@@ -420,7 +357,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 13,
               "Title": "Usuario.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Models\\Usuario.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Models\\Usuario.cs",
@@ -432,7 +369,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 12,
               "Title": "Playlist.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Models\\Playlist.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Models\\Playlist.cs",
@@ -444,7 +381,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 14,
               "Title": "Favorito.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Models\\Favorito.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Models\\Favorito.cs",
@@ -456,7 +393,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 19,
               "Title": "CancionVerificado.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\CancionVerificado.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\CancionVerificado.cshtml.cs",
@@ -468,7 +405,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 18,
               "Title": "Cancion.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Models\\Cancion.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Models\\Cancion.cs",
@@ -480,7 +417,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 17,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Index.cshtml",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Index.cshtml",
@@ -492,7 +429,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 20,
               "Title": "CancionVerificado.cshtml",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\CancionVerificado.cshtml",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\CancionVerificado.cshtml",
@@ -504,7 +441,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 26,
               "Title": "CreateUser.cshtml",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\CreateUser.cshtml",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\CreateUser.cshtml",
@@ -516,7 +453,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 27,
               "Title": "site.css",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\wwwroot\\css\\site.css",
               "RelativeDocumentMoniker": "guia de programacion\\wwwroot\\css\\site.css",
@@ -529,18 +466,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 24,
-              "Title": "CancionesAdmin.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\CancionesAdmin.cshtml.cs",
-              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Admin\\CancionesAdmin.cshtml.cs",
-              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\CancionesAdmin.cshtml.cs",
-              "RelativeToolTip": "guia de programacion\\Pages\\Admin\\CancionesAdmin.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAIBJwA8AAABRAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T22:25:34.085Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
               "Title": "Buscar.cshtml",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Buscar.cshtml",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Buscar.cshtml",
@@ -552,7 +477,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 21,
               "Title": "AzureBlobService.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Services\\AzureBlobService.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Services\\AzureBlobService.cs",
@@ -564,7 +489,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 25,
               "Title": "Buscar.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Buscar.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Buscar.cshtml.cs",
@@ -576,7 +501,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 23,
               "Title": "inicio.cshtml",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\inicio.cshtml",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\inicio.cshtml",
@@ -588,7 +513,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 22,
               "Title": "inicio.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\inicio.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\inicio.cshtml.cs",
@@ -600,7 +525,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 28,
               "Title": "CreateUser.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\CreateUser.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\CreateUser.cshtml.cs",
@@ -612,7 +537,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 37,
               "Title": "20260410203038_fotoperfil.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Migrations\\20260410203038_fotoperfil.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Migrations\\20260410203038_fotoperfil.cs",
@@ -624,7 +549,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 38,
               "Title": "20260410194636_ReparacionModelos.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Migrations\\20260410194636_ReparacionModelos.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Migrations\\20260410194636_ReparacionModelos.cs",
@@ -636,19 +561,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "Panel.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\Panel.cshtml.cs",
-              "RelativeDocumentMoniker": "guia de programacion\\Pages\\Admin\\Panel.cshtml.cs",
-              "ToolTip": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Admin\\Panel.cshtml.cs",
-              "RelativeToolTip": "guia de programacion\\Pages\\Admin\\Panel.cshtml.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAIwDEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T07:32:54.051Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 30,
               "Title": "planes.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Pages\\Premium\\planes.cshtml.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Pages\\Premium\\planes.cshtml.cs",
@@ -660,7 +573,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 29,
               "Title": "dbo.Canciones.sql",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SpotifyCloneDB/True/SqlTable/dbo.Canciones.sql",
               "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SpotifyCloneDB/True/SqlTable/dbo.Canciones.sql",
@@ -669,7 +582,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 36,
               "Title": "20260405094724_AgregarColumnaPlan.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Migrations\\20260405094724_AgregarColumnaPlan.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Migrations\\20260405094724_AgregarColumnaPlan.cs",
@@ -681,7 +594,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 31,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\appsettings.json",
               "RelativeDocumentMoniker": "guia de programacion\\appsettings.json",
@@ -693,7 +606,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 32,
               "Title": "usuarios.json",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\wwwroot\\usuarios.json",
               "RelativeDocumentMoniker": "guia de programacion\\wwwroot\\usuarios.json",
@@ -705,7 +618,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 34,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Data\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Data\\ApplicationDbContext.cs",
@@ -717,7 +630,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 33,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "guia de programacion\\Properties\\launchSettings.json",
@@ -729,7 +642,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 35,
               "Title": "20260404065354_AddPremium.cs",
               "DocumentMoniker": "C:\\Users\\Alan\\source\\repos\\Spotify_temu\\guia de programacion\\Migrations\\20260404065354_AddPremium.cs",
               "RelativeDocumentMoniker": "guia de programacion\\Migrations\\20260404065354_AddPremium.cs",

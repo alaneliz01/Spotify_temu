@@ -1,89 +1,144 @@
-﻿@page "{nombre}"
-@model spotify.Pages.PerfilViewModel
-@using Microsoft.AspNetCore.Http
+﻿@page
+@model spotify.Pages.Admin.PanelModel
 @{
-    ViewData["Title"] = "Artista - " + Model.NombreArtista;
-
-
-    var sesionId = HttpContext.Session.GetString("UsuarioId");
-    bool esMiPerfil = !string.IsNullOrEmpty(sesionId) && sesionId == Model.ArtistaInfo?.Id.ToString();
+    ViewData["Title"] = "Panel de Administración";
 }
 
-<div class="artist-profile-wrapper">
+<style>
+    .track-row {
+        transition: background-color 0.3s ease;
+        border-bottom: 1px solid #282828 !important;
+    }
 
-
-    <div class="px-4 py-3 d-flex align-items-center gap-4">
-
-        @if (esMiPerfil) {
-            <a asp-page="/CancionVerificado" class="btn btn-outline-light rounded-pill px-4 fw-bold btn-sm">SUBIR NUEVA MÚSICA</a>
+        .track-row:hover {
+            background-color: #282828 !important;
         }
+
+    .img-track-admin {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #333;
+    }
+
+    .input-edit-title {
+        background-color: #181818 !important;
+        border: 1px solid #333 !important;
+        color: white !important;
+        font-size: 0.9rem;
+        border-radius: 4px;
+    }
+
+        .input-edit-title:focus {
+            border-color: #1db954 !important;
+            box-shadow: none;
+        }
+
+    .badge-track {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+    }
+</style>
+
+<div class="main-content p-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="fw-bold text-white mb-1">Panel de Control Musical</h1>
+            <p class="text-secondary small">Gestiona el catálogo de canciones, corrige metadatos y modera contenido.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-page="/Admin/ListaUsuarios" class="btn btn-outline-info rounded-pill px-4 fw-bold">
+                <i class="bi bi-people me-2"></i>Gestión de Usuarios
+            </a>
+            <a asp-page="/inicio" class="btn btn-outline-light rounded-pill px-4 fw-bold border-secondary">
+                Volver al Inicio
+            </a>
+        </div>
     </div>
 
-    <div class="px-4 pb-5">
-        <h3 class="fw-bold text-white mb-3 fs-4">Popular</h3>
-        <table class="table table-dark table-hover align-middle mb-0" style="--bs-table-bg: transparent;">
-            <thead>
-                <tr class="text-secondary small text-uppercase border-bottom border-secondary border-opacity-25">
-                    <th style="width: 40px;">#</th>
-                    <th>Título</th>
-                    <th>Álbum</th>
-                    <th class="text-end" style="width: 150px;"><i class="bi bi-clock"></i></th>
-                </tr>
-            </thead>
-            <tbody>
-                @{ int j = 1; }
-                @foreach (var cancion in Model.CancionesArtista)
-                {
-                    <tr class="track-row">
-                        <td class="text-secondary text-center small pointer" onclick="window.location.href='/Reproductor/@cancion.Id?contexto=artista&valor=@Uri.EscapeDataString(Model.NombreArtista)'">
-                            <span class="index-num">@j</span>
-                            <i class="bi bi-play-fill text-white d-none play-icon-row"></i>
-                        </td>
-                        <td class="pointer" onclick="window.location.href='/Reproductor/@cancion.Id?contexto=artista&valor=@Uri.EscapeDataString(Model.NombreArtista)'">
-                            <div class="d-flex align-items-center gap-3">
-                                <img src="@cancion.RutaPortada" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
-                                <div>
-                                    <p class="mb-0 text-white fw-bold song-title small">@cancion.Titulo</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-secondary small">@cancion.Album</td>
-                        <td class="text-secondary text-end small">
-                            <div class="d-flex align-items-center justify-content-end gap-3">
-                                <span>@cancion.Duracion.ToString(@"m\:ss")</span>
+  
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="p-3 rounded-3" style="background: #181818; border: 1px solid #282828;">
+                <span class="text-secondary small d-block mb-1 text-uppercase fw-bold" style="letter-spacing: 1px;">En Catálogo</span>
+                <span class="h3 fw-bold text-white">@Model.Canciones.Count <small class="fs-6 text-secondary">tracks</small></span>
+            </div>
+        </div>
+    </div>
 
+
+    <div class="spotify-card shadow-lg" style="background-color: #121212; border-radius: 15px; border: 1px solid #282828; overflow: hidden;">
+        <div class="table-responsive">
+            <table class="table table-dark align-middle mb-0">
+                <thead>
+                    <tr class="text-secondary" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; background-color: #181818;">
+                        <th class="border-0 px-4 py-3">Canción / Portada</th>
+                        <th class="border-0 py-3">Artista & Metadatos</th>
+                        <th class="border-0 text-end px-4 py-3">Acciones de Moderación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cancion in Model.Canciones)
+                    {
+                        <tr class="track-row">
+                  
+                            <td class="px-4 py-3">
+                                <div class="d-flex align-items-center">
+                                    <img src="@cancion.RutaPortada" class="img-track-admin me-3 shadow" />
+                                    <div style="width: 100%; max-width: 300px;">
+                                        <form method="post" asp-page-handler="ActualizarNombre" class="d-flex gap-2">
+                                            <input type="hidden" name="id" value="@cancion.Id" />
+                                            <input type="text" name="nuevoNombre" class="form-control form-control-sm input-edit-title"
+                                                   value="@cancion.Titulo" />
+                                            <button type="submit" class="btn btn-sm btn-outline-success border-0" title="Guardar cambios">
+                                                <i class="bi bi-check2-circle fs-5"></i>
+                                            </button>
+                                        </form>
+                                        <span class="text-secondary" style="font-size: 0.7rem;">ID Track: #@cancion.Id</span>
+                                    </div>
+                                </div>
+                            </td>
+
+                   
+                            <td>
+                                <div class="d-flex flex-column gap-1">
+                                    <span class="text-white fw-semibold">@cancion.Artista</span>
+                                    <div class="d-flex gap-2">
+                                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill badge-track">
+                                            MP3
+                                        </span>
+                                        @if (cancion.Titulo.ToLower().Contains("remix"))
+                                        {
+                                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill badge-track">
+                                                REMIX
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="text-end px-4">
+                                <div class="d-flex justify-content-end gap-2">
                            
-                                @if (esMiPerfil)
-                                {
-                                    <form method="post" asp-page-handler="EliminarCancion" asp-route-id="@cancion.Id" 
-                                          onsubmit="return confirm('¿Borrar esta canción permanentemente?');" class="d-inline">
-                                        <button class="btn btn-link text-danger p-0 border-0 btn-delete-track" title="Eliminar">
-                                            <i class="bi bi-trash3"></i>
+                                    <a href="@cancion.RutaArchivo" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-bold shadow-sm">
+                                        <i class="bi bi-headphones me-1"></i> Probar
+                                    </a>
+
+                       
+                                    <form method="post" asp-page-handler="Eliminar" asp-route-id="@cancion.Id"
+                                          onsubmit="return confirm('¿Borrar canción permanentemente del sistema?');">
+                                        <button class="btn btn-sm btn-outline-danger rounded-circle p-2" title="Eliminar del Catálogo">
+                                            <i class="bi bi-trash3 px-1"></i>
                                         </button>
                                     </form>
-                                }
-                            </div>
-                        </td>
-                    </tr>
-                    j++;
-                }
-            </tbody>
-        </table>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-
-@section Styles {
-    <style>
-
-
-        .track-row:hover .btn-delete-track { opacity: 1; visibility: visible; }
-        .btn-delete-track { 
-            opacity: 0; 
-            visibility: hidden; 
-            transition: 0.2s; 
-            font-size: 1.1rem;
-        }
-        .btn-delete-track:hover { color: #ff4d4d !important; transform: scale(1.2); }
-        .pointer { cursor: pointer; }
-    </style>
-}

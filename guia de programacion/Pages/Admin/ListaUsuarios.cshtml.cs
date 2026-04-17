@@ -17,18 +17,39 @@ namespace spotify.Pages.Admin
 
         public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
 
-        // Carga la lista de usuarios al entrar a la página
         public async Task OnGetAsync()
         {
             Usuarios = await _context.Usuarios.ToListAsync();
         }
 
-        // Maneja la eliminación de usuarios
-        public async Task<IActionResult> OnPostEliminarAsync(int id)
+        public async Task<IActionResult> OnPostAsignarPlanAsync(int id, string plan)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
 
-            // Seguridad: No permitimos eliminar al Admin principal (ID 1)
+            if (usuario != null)
+            {
+                usuario.Plan = plan;
+                usuario.EsPremium = (plan != "Gratis");
+                _context.Usuarios.Update(usuario);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage(new { usuarioAbiertoId = id });
+        }
+
+        public async Task<IActionResult> OnPostToggleVerificadoAsync(int id)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario != null)
+            {
+                usuario.EsVerificado = !usuario.EsVerificado;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage(new { usuarioAbiertoId = id });
+        }
+
+        public async Task<IActionResult> OnPostEliminarAsync(int id)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario != null && usuario.Id != 1)
             {
                 _context.Usuarios.Remove(usuario);
@@ -37,44 +58,5 @@ namespace spotify.Pages.Admin
             return RedirectToPage();
         }
 
-        // Maneja el botón de DAR PRIME / QUITAR PRIME
-        public async Task<IActionResult> OnPostTogglePremiumAsync(int id)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-            {
-                // Solo invertimos el estado Premium
-                usuario.EsPremium = !usuario.EsPremium;
-
-                if (usuario.EsPremium)
-                {
-                    if (string.IsNullOrEmpty(usuario.Plan) || usuario.Plan == "Gratis")
-                    {
-                        usuario.Plan = "Individual";
-                    }
-                }
-                else
-                {
-                    usuario.Plan = "Gratis";
-                }
-
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToPage();
-        }
-
-        // Maneja el botón de VERIFICAR / QUITAR VERIFICADO
-        public async Task<IActionResult> OnPostToggleVerificadoAsync(int id)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-            {
-                // Invertimos el estado de verificación (el check azul)
-                usuario.EsVerificado = !usuario.EsVerificado;
-
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToPage();
-        }
     }
 }
