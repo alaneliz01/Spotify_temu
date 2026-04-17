@@ -2,57 +2,37 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using spotify.Models;
 using spotify.Data;
-using spotify.Services;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace spotify.Pages.Admin
 {
-    // Asegúrate de que la clase se llame exactamente CancionesAdminModel
     public class CancionesAdminModel : PageModel
     {
-        private readonly AzureBlobService _blobService;
         private readonly ApplicationDbContext _context;
 
-        public CancionesAdminModel(ApplicationDbContext context, AzureBlobService blobService)
+        public CancionesAdminModel(ApplicationDbContext context)
         {
             _context = context;
-            _blobService = blobService;
         }
 
-        [BindProperty, Required]
-        public string Nombre { get; set; }
+        public List<Cancion> Canciones { get; set; }
 
-        [BindProperty, Required]
-        public string Artista { get; set; }
-
-        [BindProperty, Required]
-        public string Genero { get; set; }
-
-        [BindProperty]
-        public IFormFile Archivo { get; set; }
-
-        [BindProperty]
-        public IFormFile Portada { get; set; }
-
-        public async Task<IActionResult> OnPostAsync()
+        public async Task OnGetAsync()
         {
-            if (Archivo == null || Portada == null) return Page();
+            Canciones = await _context.Canciones.ToListAsync();
+        }
 
-            var urlAudio = await _blobService.SubirArchivoAsync(Archivo);
-            var urlPortada = await _blobService.SubirArchivoAsync(Portada);
+        public async Task<IActionResult> OnPostEliminarAsync(int id)
+        {
+            var cancion = await _context.Canciones.FindAsync(id);
 
-            var cancion = new Cancion
+            if (cancion != null)
             {
-                Titulo = Nombre,
-                Artista = Artista, // El admin sí puede escribir el nombre del artista
-                Genero = Genero,
-                RutaArchivo = urlAudio,
-                RutaPortada = urlPortada
-            };
+                _context.Canciones.Remove(cancion);
+                await _context.SaveChangesAsync();
+            }
 
-            _context.Canciones.Add(cancion);
-            await _context.SaveChangesAsync();
-            return RedirectToPage("/Inicio");
+            return RedirectToPage();
         }
     }
 }
