@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject spotify.Data.ApplicationDbContext _context
 @{
-    // 1. Lógica para cargar playlists en el Sidebar
     var userIdStr = Context.Session.GetString("UsuarioId");
     List<spotify.Models.Playlist> playlistsSidebar = new();
 
@@ -10,23 +9,22 @@
         try 
         {
             int uId = int.Parse(userIdStr);
-            // Traemos las playlists del usuario logueado
             playlistsSidebar = _context.Playlists
                 .Where(p => p.UsuarioId == uId)
                 .ToList();
         }
         catch { 
-            /* Silenciamos errores de base de datos */ 
         }
     }
-
-    // 2. Datos del usuario para el Navbar superior
     var nombreUsuario = Context.Session.GetString("UsuarioNombre") ?? "Usuario";
     var fotoUsuario = Context.Session.GetString("UsuarioFoto");
-    var esVerificado = Context.Session.GetString("EsVerificado") == "True";
-    var esAdmin = Context.Session.GetString("EsAdmin") == "true";
-    var esPremium = Context.Session.GetString("EsPremium") == "true";
+    
+    var esVerificado = (Context.Session.GetString("EsVerificado") ?? "").ToLower() == "true";
+    var esAdmin = (Context.Session.GetString("EsAdmin") ?? "").ToLower() == "true";
+    var esPremium = (Context.Session.GetString("EsPremium") ?? "").ToLower() == "true";
     var tipoPlan = Context.Session.GetString("TipoPlan") ?? "Gratis";
+
+    bool puedeSubirCanciones = esVerificado || esAdmin;
 }
 
 <!DOCTYPE html>
@@ -45,7 +43,6 @@
         .main-wrapper { height: 100vh; overflow: hidden; }
         .main-content { overflow-y: auto; background: linear-gradient(to bottom, #1e1e1e, #121212); border-radius: 8px; margin: 8px 8px 8px 0; scrollbar-width: thin; }
         
-        /* Sidebar Styles */
         .sidebar-playlist-item {
             padding: 8px 12px; border-radius: 6px; transition: 0.3s;
             text-decoration: none; display: flex; align-items: center; color: #b3b3b3;
@@ -55,7 +52,6 @@
         .sidebar-scroll { overflow-y: auto; flex-grow: 1; scrollbar-width: none; }
         .sidebar-scroll::-webkit-scrollbar { display: none; }
 
-        /* Estilo especial para Likes */
         .liked-sidebar-icon {
             background: linear-gradient(135deg, #450af5, #8e8ee5);
             width: 32px; height: 32px; border-radius: 4px; margin-right: 12px;
@@ -65,13 +61,12 @@
         .btn-profile:hover { background-color: #282828 !important; transform: scale(1.02); transition: 0.2s; }
         .text-verified { color: #00f2ff !important; text-shadow: 0 0 10px rgba(0, 242, 255, 0.4); }
         .img-nav-profile { width: 28px; height: 28px; object-fit: cover; border-radius: 50%; }
-        .badge-plan { font-size: 0.6rem; margin-left: 8px; }
+        .badge-plan { font-size: 0.6rem; margin-left: 8px; font-weight: 800; }
     </style>
 </head>
 <body>
     <div class="d-flex h-100 w-100 p-0 m-0 main-wrapper">
         
-        @* SIDEBAR *@
         <div class="sidebar p-3 d-flex flex-column flex-shrink-0" style="width: 240px; background-color: #000;">
             <div class="logo-container mb-4 pb-2 px-2 text-white">
                 <i class="bi bi-spotify text-success fs-3 me-2"></i>
@@ -99,7 +94,6 @@
             <div class="sidebar-scroll">
                 <p class="text-secondary small fw-bold px-2 text-uppercase mb-2" style="font-size: 0.7rem; letter-spacing: 1px;">Tus Listas</p>
                 
-                @* ENLACE FIJO A LIKES *@
                 <a asp-page="/Favoritas" class="sidebar-playlist-item mb-1">
                     <div class="liked-sidebar-icon shadow-sm">
                         <i class="bi bi-heart-fill text-white" style="font-size: 0.8rem;"></i>
@@ -107,7 +101,6 @@
                     <span class="text-truncate small fw-semibold">Tus me gusta</span>
                 </a>
 
-                @* PLAYLISTS DEL USUARIO *@
                 @foreach (var p in playlistsSidebar)
                 {
                     <a asp-page="/Playlist" asp-route-id="@p.Id" class="sidebar-playlist-item mb-1">
@@ -127,10 +120,8 @@
             </div>
         </div>
 
-        @* CONTENIDO PRINCIPAL *@
         <div class="flex-grow-1 main-content p-4 text-white">
             
-            @* TOP NAVBAR *@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="d-flex gap-2">
                     <button class="btn btn-black rounded-circle bg-black text-white p-1 px-2 opacity-75" onclick="history.back()"><i class="bi bi-chevron-left"></i></button>
@@ -151,25 +142,58 @@
                             <span class="me-1">@nombreUsuario</span>
                             
                             @if (esVerificado) {
-                                <i class="bi bi-patch-check-fill text-verified ms-1" title="Verificado"></i>
+                                <i class="bi bi-patch-check-fill text-verified ms-1" title="Artista Verificado"></i>
                             }
 
                             @if (esAdmin) {
                                 <span class="badge bg-warning text-dark badge-plan">ADMIN</span>
                             }
-                            else if (esPremium && tipoPlan != "Gratis") {
+                            else if (tipoPlan.ToLower() != "gratis") {
                                 <span class="badge @(tipoPlan == "Blasphemous" ? "bg-danger" : "bg-info text-dark") badge-plan">
                                     @tipoPlan.ToUpper()
                                 </span>
                             }
                         </button>
 
-                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg border-secondary mt-2">
-                            <li><a class="dropdown-item py-2" asp-page="/Perfil"><i class="bi bi-person-circle me-2 text-secondary"></i> Perfil</a></li>
-                            
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg border-secondary mt-2" style="min-width: 200px;">
+    
+                            <li>
+                                <a class="dropdown-item py-2" asp-page="/Perfil">
+                                    <i class="bi bi-gear-fill me-2 text-secondary"></i> Editar Perfil
+                                </a>
+                            </li>
+
+
+                            <li>
+                                <a class="dropdown-item py-2" asp-page="/PerfilView" asp-route-nombre="@nombreUsuario">
+                                    <i class="bi bi-person-badge me-2 text-secondary"></i> Perfil de Artista
+                                </a>
+                            </li>
+
+
+                            <li><hr class="dropdown-divider border-secondary mx-2"></li>
+                            <li>
+                                <a class="dropdown-item py-2" asp-page="/Premium/Planes">
+                                    <i class="bi bi-credit-card-2-back me-2 text-secondary"></i> 
+                                    Plan: <span class="text-info">@tipoPlan</span>
+                                </a>
+                            </li>
+
+
                             @if (esAdmin) {
+                                <li><hr class="dropdown-divider border-secondary mx-2"></li>
                                 <li><a class="dropdown-item py-2 text-warning" asp-page="/Admin/Panel"><i class="bi bi-shield-lock me-2"></i> Panel Música</a></li>
                                 <li><a class="dropdown-item py-2 text-info" asp-page="/Admin/ListaUsuarios"><i class="bi bi-people me-2"></i> Usuarios</a></li>
+                            }
+
+
+                            @if (puedeSubirCanciones) {
+                                <li><hr class="dropdown-divider border-secondary mx-2"></li>
+                                <li>
+                                    <a class="dropdown-item py-2 text-success" asp-page="/CancionVerificado">
+                                        <i class="bi bi-cloud-arrow-up-fill me-2"></i> Subir Canción
+                                    </a>
+                                </li>
                             }
 
                             <li><hr class="dropdown-divider border-secondary mx-2"></li>

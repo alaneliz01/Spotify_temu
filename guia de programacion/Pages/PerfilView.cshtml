@@ -1,11 +1,16 @@
 ﻿@page "{nombre}"
 @model spotify.Pages.PerfilViewModel
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Artista - " + Model.NombreArtista;
+
+    var sesionId = Model.HttpContext.Session.GetString("UsuarioId");
+    bool esMiPerfil = !string.IsNullOrEmpty(sesionId) && 
+                      Model.ArtistaInfo != null && 
+                      sesionId == Model.ArtistaInfo.Id.ToString();
 }
 
 <div class="artist-profile-wrapper">
-    @* --- HEADER COMPACTO ELEVADO --- *@
     <div class="artist-header-card d-flex align-items-end p-4 gap-4">
         <div class="header-image-card shadow-lg">
             <img src="@(Model.ArtistaInfo?.FotoPerfil ?? "/img/default-banner.jpg")" alt="@Model.NombreArtista">
@@ -24,7 +29,6 @@
         </div>
     </div>
 
-    @* --- CONTROLES PEGADOS AL HEADER --- *@
     <div class="px-4 py-3 d-flex align-items-center gap-4">
         @{ var primeraCancion = Model.CancionesArtista.FirstOrDefault(); }
         @if (primeraCancion != null)
@@ -34,11 +38,18 @@
                 <i class="bi bi-play-fill fs-3 text-black"></i>
             </a>
         }
-        <button class="btn btn-outline-light rounded-pill px-4 fw-bold btn-sm">SIGUIENDO</button>
+        
+        @if (esMiPerfil)
+        {
+            <a asp-page="/CancionVerificado" class="btn btn-outline-light rounded-pill px-4 fw-bold btn-sm">SUBIR MÚSICA</a>
+        }
+        else
+        {
+            <button class="btn btn-outline-light rounded-pill px-4 fw-bold btn-sm">SIGUIENDO</button>
+        }
         <i class="bi bi-three-dots text-secondary fs-4 pointer hover-white"></i>
     </div>
 
-    @* --- TABLA --- *@
     <div class="px-4 pb-5">
         <h3 class="fw-bold text-white mb-3 fs-4">Popular</h3>
         <table class="table table-dark table-hover align-middle mb-0" style="--bs-table-bg: transparent;">
@@ -47,19 +58,19 @@
                     <th style="width: 40px;">#</th>
                     <th>Título</th>
                     <th>Álbum</th>
-                    <th class="text-end"><i class="bi bi-clock"></i></th>
+                    <th class="text-end" style="width: 120px;"><i class="bi bi-clock"></i></th>
                 </tr>
             </thead>
             <tbody>
                 @{ int j = 1; }
                 @foreach (var cancion in Model.CancionesArtista)
                 {
-                    <tr class="track-row" onclick="window.location.href='/Reproductor/@cancion.Id?contexto=artista&valor=@Uri.EscapeDataString(Model.NombreArtista)'">
-                        <td class="text-secondary text-center small">
+                    <tr class="track-row">
+                        <td class="text-secondary text-center small pointer" onclick="window.location.href='/Reproductor/@cancion.Id?contexto=artista&valor=@Uri.EscapeDataString(Model.NombreArtista)'">
                             <span class="index-num">@j</span>
                             <i class="bi bi-play-fill text-white d-none play-icon-row"></i>
                         </td>
-                        <td>
+                        <td class="pointer" onclick="window.location.href='/Reproductor/@cancion.Id?contexto=artista&valor=@Uri.EscapeDataString(Model.NombreArtista)'">
                             <div class="d-flex align-items-center gap-3">
                                 <img src="@cancion.RutaPortada" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
                                 <div>
@@ -68,8 +79,24 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="text-secondary small">@cancion.Album</td>
-                        <td class="text-secondary text-end small">@cancion.Duracion.ToString(@"m\:ss")</td>
+                        <td class="text-secondary small pointer" onclick="window.location.href='/Reproductor/@cancion.Id?contexto=artista&valor=@Uri.EscapeDataString(Model.NombreArtista)'">
+                            @cancion.Album
+                        </td>
+                        <td class="text-secondary text-end small">
+                            <div class="d-flex align-items-center justify-content-end gap-3">
+                                <span>@cancion.Duracion.ToString(@"m\:ss")</span>
+                                
+                                @if (esMiPerfil)
+                                {
+                                    <form method="post" asp-page-handler="EliminarCancion" asp-route-id="@cancion.Id" 
+                                          onsubmit="return confirm('¿Seguro que quieres eliminar esta canción de tu catálogo?');" class="d-inline">
+                                        <button class="btn btn-link text-danger p-0 border-0 btn-delete-song" title="Eliminar canción">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </td>
                     </tr>
                     j++;
                 }
@@ -81,15 +108,19 @@
 @section Styles {
     <style>
         .artist-profile-wrapper { background: linear-gradient(to bottom, #2a2a2a 0%, #121212 350px); min-height: 100vh; }
-        .artist-header-card { padding-top: 60px !important; } /* Espacio para el navbar si tienes */
+        .artist-header-card { padding-top: 60px !important; } 
         .header-image-card { width: 190px; height: 190px; min-width: 190px; border-radius: 4px; overflow: hidden; }
         .header-image-card img { width: 100%; height: 100%; object-fit: cover; }
         .header-text-content h1 { font-size: clamp(2rem, 6vw, 4.5rem); letter-spacing: -2px; line-height: 1.1; }
         .x-small { font-size: 0.75rem; }
+        .pointer { cursor: pointer; }
         .track-row:hover { background: rgba(255,255,255,0.1) !important; }
         .track-row:hover .index-num { display: none; }
         .track-row:hover .play-icon-row { display: inline-block !important; }
         .track-row:hover .song-title { color: #1db954 !important; }
+        .track-row:hover .btn-delete-song { opacity: 1; }
         .play-main-btn:hover { transform: scale(1.05); }
+        .btn-delete-song { opacity: 0; transition: 0.2s; }
+        .btn-delete-song:hover { color: #ff4d4d !important; transform: scale(1.1); }
     </style>
 }

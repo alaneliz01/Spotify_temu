@@ -26,30 +26,42 @@ namespace spotify.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var nombre = HttpContext.Session.GetString("UsuarioNombre");
-            if (string.IsNullOrEmpty(nombre)) return RedirectToPage("/Index");
+            var userIdStr = HttpContext.Session.GetString("UsuarioId");
+            if (string.IsNullOrEmpty(userIdStr)) return RedirectToPage("/Index");
 
-            Usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Nombre == nombre);
+            int userId = int.Parse(userIdStr);
+            Usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (Usuario == null) return RedirectToPage("/Index");
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             var userDb = await _context.Usuarios.FindAsync(Usuario.Id);
-            if (userDb == null) return Page();
+            if (userDb == null) return NotFound();
 
-            // Actualizar contraseña si se cambió
-            userDb.Password = Usuario.Password;
-
-            // Actualizar foto si se subió una nueva
+            if (!string.IsNullOrWhiteSpace(Usuario.Password))
+            {
+                userDb.Password = Usuario.Password;
+            }
             if (NuevaFoto != null)
             {
                 userDb.FotoPerfil = await _blobService.SubirArchivoAsync(NuevaFoto);
-                // Actualizar sesión para que el Layout refleje el cambio de inmediato
-                HttpContext.Session.SetString("UsuarioFoto", userDb.FotoPerfil);
+
+                HttpContext.Session.SetString("UsuarioFoto", userDb.FotoPerfil ?? "");
             }
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Usuarios.Update(userDb);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Page();
+            }
             return RedirectToPage("/Inicio");
         }
     }

@@ -23,7 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -35,8 +35,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// 2. ACTIVAR EL MIDDLEWARE DE SESIÓN (OBLIGATORIO)
-// Debe ir después de UseRouting y ANTES de UseAuthorization
+
 app.UseSession();
 
 app.UseAuthorization();
