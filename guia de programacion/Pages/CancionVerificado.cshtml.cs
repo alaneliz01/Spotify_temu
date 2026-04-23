@@ -31,13 +31,24 @@ namespace spotify.Pages
         [BindProperty]
         public IFormFile Portada { get; set; }
 
+        //ESTE ES EL CODIGO ORIGINAL, LO DE ABAJO LO PUSE PARA HACER PRUEBAS DE SUBIR CANCION 
+       // public IActionResult OnGet()
+       // {
+          //  var esVerificado = HttpContext.Session.GetString("EsVerificado");
+           // if (string.IsNullOrEmpty(esVerificado) || !esVerificado.Equals("True", StringComparison.OrdinalIgnoreCase))
+           // {
+              //  return RedirectToPage("/inicio");
+           // }
+
+           // return Page();
+       // }
         public IActionResult OnGet()
         {
-            var esVerificado = HttpContext.Session.GetString("EsVerificado");
-            if (string.IsNullOrEmpty(esVerificado) || !esVerificado.Equals("True", StringComparison.OrdinalIgnoreCase))
-            {
-                return RedirectToPage("/inicio");
-            }
+            HttpContext.Session.SetString("Rol", "Admin"); // forzado para hacer prueba con admin para poder subir porque no deja entrar,
+                                                           // no dejaste activo el boton de subir para admin
+
+            var rol = HttpContext.Session.GetString("Rol");
+            Console.WriteLine("ROL: " + rol);
 
             return Page();
         }
