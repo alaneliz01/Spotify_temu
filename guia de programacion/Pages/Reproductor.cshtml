@@ -1,9 +1,10 @@
 ﻿@page "{id:int}"
 @model spotify.Pages.ReproductorModel
 
-<div class="player-layout-wrapper">
+<div class="player-layout-wrapper d-flex flex-column flex-md-row">
+    
     @* PANEL IZQUIERDO: PLAYLIST *@
-    <div class="playlist-panel flex-grow-1 p-5">
+    <div class="playlist-panel col-12 col-md-4 col-lg-4 p-4 p-md-5 overflow-auto">
         <h3 class="fw-bold text-white-50 small mb-4 text-uppercase" style="letter-spacing: 1px;">A continuación (@Model.Contexto)</h3>
         <div class="playlist-container">
             @foreach (var c in Model.ListaReproduccion)
@@ -11,7 +12,7 @@
                 <div class="playlist-item @(c.Id == Model.Cancion.Id ? "active" : "") d-flex align-items-center px-3 py-2 rounded mb-1">
                     <a asp-page="/Reproductor" asp-route-id="@c.Id" asp-route-contexto="@Model.Contexto" asp-route-valor="@Model.Valor" class="d-flex align-items-center flex-grow-1 text-decoration-none">
                         <img src="@c.RutaPortada" class="item-portada me-3 shadow">
-                        <p class="item-titulo text-white fw-bold mb-0 song-title">@c.Titulo</p>
+                        <p class="item-titulo text-white fw-bold mb-0 song-title text-truncate">@c.Titulo</p>
                     </a>
                     <a asp-page="/PerfilView" asp-route-nombre="@c.Artista" class="text-secondary small ms-2 hover-white text-decoration-none">@c.Artista</a>
                 </div>
@@ -20,72 +21,67 @@
     </div>
 
     @* PANEL DERECHO: INFO *@
-    <div class="artist-panel p-4">
-        <div class="album-container mb-4 text-center">
-            <img src="@Model.Cancion.RutaPortada" class="album-art-square shadow-lg">
-        </div>
-
-        <div class="info-card p-3 rounded-4 mb-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="text-truncate">
-                    <h2 class="h3 fw-bold text-white mb-0 text-truncate">@Model.Cancion.Titulo</h2>
-                    <a asp-page="/PerfilView" asp-route-nombre="@Model.Cancion.Artista" class="h5 text-secondary text-decoration-none hover-white">@Model.Cancion.Artista</a>
-                </div>
-                
-                <div class="d-flex gap-3 align-items-center ms-2">
-                    <form method="post" asp-page-handler="ToggleFavorito" asp-route-id="@Model.Cancion.Id" id="formFavorito">
-                        <input type="hidden" name="tiempo" class="tiempoActualHidden" value="0" />
-                        <input type="hidden" name="contexto" value="@Model.Contexto" />
-                        <input type="hidden" name="valor" value="@Model.Valor" />
-                        <button type="button" class="btn border-0 bg-transparent p-0" onclick="enviarConTiempo('formFavorito')">
-                            <i class="bi @(Model.EsFavoritaDelUsuario ? "bi-heart-fill text-success" : "bi-heart text-white") fs-3"></i>
-                        </button>
-                    </form>
-
-                    <button class="btn border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#modalAddPlaylist">
-                        <i class="bi bi-plus-circle fs-3 text-white"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <a asp-page="/PerfilView" asp-route-nombre="@Model.Cancion.Artista" class="text-decoration-none">
-            <div class="about-artist p-3 rounded-4 mt-3 hover-bright">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="artist-mini-img shadow" style="background-image: url('@Model.FotoArtista')"></div>
-                    <div>
-                        <p class="fw-bold text-white mb-0">@Model.Cancion.Artista @(Model.ArtistaVerificado ? "✔" : "")</p>
-                        <p class="small text-secondary mb-0">Ver perfil</p>
-                    </div>
-                </div>
-            </div>
-        </a>
+<div class="artist-panel col-12 col-md-8 col-lg-8 p-3 d-flex flex-column align-items-center justify-content-center overflow-auto">
+    <div class="album-container mb-3 text-center w-100">
+        <img src="@Model.Cancion.RutaPortada" class="album-art-square shadow-lg">
     </div>
+
+    <div class="info-card p-2 rounded-4 mb-2 w-100" style="max-width: 350px;">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="text-truncate flex-grow-1 me-2">
+                <h2 class="h5 fw-bold text-white mb-0 text-truncate">@Model.Cancion.Titulo</h2>
+                <a asp-page="/PerfilView" asp-route-nombre="@Model.Cancion.Artista" class="small text-secondary text-decoration-none hover-white">@Model.Cancion.Artista</a>
+            </div>
+            
+            <div class="d-flex gap-2 align-items-center">
+                <form method="post" asp-page-handler="ToggleFavorito" asp-route-id="@Model.Cancion.Id" id="formFavorito">
+                    <input type="hidden" name="tiempo" class="tiempoActualHidden" value="0" />
+                    <input type="hidden" name="contexto" value="@Model.Contexto" />
+                    <input type="hidden" name="valor" value="@Model.Valor" />
+                    <button type="button" class="btn border-0 bg-transparent p-0" onclick="enviarConTiempo('formFavorito')">
+                        <i class="bi @(Model.EsFavoritaDelUsuario ? "bi-heart-fill text-success" : "bi-heart text-white") fs-4"></i>
+                    </button>
+                </form>
+
+                <button class="btn border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#modalAddPlaylist">
+                    <i class="bi bi-plus-circle fs-4 text-white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <a asp-page="/PerfilView" asp-route-nombre="@Model.Cancion.Artista" class="text-decoration-none w-100" style="max-width: 350px;">
+        <div class="about-artist p-2 rounded-4 mt-2 hover-bright">
+            <div class="d-flex align-items-center gap-2">
+                <div class="artist-mini-img shadow" style="background-image: url('@Model.FotoArtista')"></div>
+                <div>
+                    <p class="fw-bold text-white mb-0 small">@Model.Cancion.Artista @(Model.ArtistaVerificado ? "✔" : "")</p>
+                    <p class="text-secondary mb-0" style="font-size: 0.75rem;">Ver perfil</p>
+                </div>
+            </div>
+        </div>
+    </a>
 </div>
 
-@* CONTROLES INFERIORES *@
-<div class="bottom-player-bar">
-    <div class="d-flex flex-column align-items-center justify-content-center h-100 container">
-        <div class="d-flex align-items-center gap-5 mb-3">
-            @* Botón Anterior *@
+@* CONTROLES INFERIORES: BARRA FIJA *@
+<div class="bottom-player-bar fixed-bottom">
+    <div class="d-flex flex-column align-items-center justify-content-center h-100 w-100 py-1">
+        <div class="d-flex align-items-center gap-3 mb-1">
             <a asp-page="/Reproductor" asp-route-id="@Model.AnteriorCancionId" asp-route-contexto="@Model.Contexto" asp-route-valor="@Model.Valor" class="nav-btn text-white opacity-75 hover-opacity-100">
-                <i class="bi bi-skip-start-fill fs-1"></i>
+                <i class="bi bi-skip-start-fill fs-4"></i>
             </a>
             
-            @* Botón Play Gigante *@
             <button class="btn-play-main shadow-lg" onclick="togglePlay()">
                 <i id="playIcon" class="bi bi-play-fill"></i>
             </button>
             
-            @* Botón Siguiente *@
             <a asp-page="/Reproductor" asp-route-id="@Model.SiguienteCancionId" asp-route-contexto="@Model.Contexto" asp-route-valor="@Model.Valor" class="nav-btn text-white opacity-75 hover-opacity-100">
-                <i class="bi bi-skip-end-fill fs-1"></i>
+                <i class="bi bi-skip-end-fill fs-4"></i>
             </a>
         </div>
         
-        @* REPRODUCTOR DE AUDIO MÁS GRANDE *@
-        <div class="w-75 mb-2">
-            <audio id="audioEngine" autoplay class="w-100 main-audio-bar"
+        <div class="w-100 px-3" style="max-width: 450px;">
+            <audio id="audioEngine" autoplay class="w-100 main-audio-bar" style="height: 30px;"
                    onloadedmetadata="this.currentTime = @Model.TiempoActual"
                    onended="window.location.href='/Reproductor/@Model.SiguienteCancionId?contexto=@Model.Contexto&valor=@Model.Valor'"
                    controls>
@@ -94,7 +90,6 @@
         </div>
     </div>
 </div>
-
 @* MODAL DE PLAYLISTS *@
 <div class="modal fade" id="modalAddPlaylist" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -142,7 +137,6 @@
         }
     }
 
-    // Actualiza el icono si se le da play/pausa desde la barra nativa
     audio.onplay = () => playIcon.classList.replace('bi-play-fill', 'bi-pause-fill');
     audio.onpause = () => playIcon.classList.replace('bi-pause-fill', 'bi-play-fill');
 
@@ -155,22 +149,65 @@
 
 @section Styles {
     <style>
-        .player-layout-wrapper { background: linear-gradient(to bottom, #2a2a2a 0%, #121212 100%); min-height: 100vh; }
+        /* Layout General y División de Paneles */
+        .player-layout-wrapper { 
+            background: linear-gradient(to bottom, #2a2a2a 0%, #121212 100%); 
+            height: calc(100vh - 90px); /* Deja espacio para la barra de abajo */
+            overflow: hidden; 
+        }
+
+        .playlist-panel, .artist-panel {
+            height: 100%;
+            overflow-y: auto; /* Permite scroll individual en los paneles */
+        }
+
+        /* Estilos de la Playlist (Izquierda) */
         .playlist-item:hover { background: rgba(255,255,255,0.1); }
         .playlist-item.active { background: rgba(255,255,255,0.15); border-left: 4px solid #1db954; }
         .playlist-item:hover .song-title { color: #1db954 !important; }
         .item-portada { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; }
-        .album-art-square { width: 100%; max-width: 380px; aspect-ratio: 1/1; border-radius: 12px; object-fit: cover; }
+
+        /* Estilos de la Portada e Info (Derecha) */
+        .album-art-square { 
+            width: 100%; 
+            max-width: 250px; /* Portada reducida para no saturar la pantalla */
+            aspect-ratio: 1/1; 
+            border-radius: 12px; 
+            object-fit: cover; 
+        }
         .artist-mini-img { width: 48px; height: 48px; border-radius: 50%; background-size: cover; background-position: center; }
+
+        /* Barra Inferior y Botones */
+        .bottom-player-bar {
+            height: 90px;
+            background-color: transparent; /* Mantiene la transparencia de tu versión original si quieres que se mezcle, o cámbialo a #181818 si prefieres barra sólida */
+        }
         
-        /* Botón Play Spotify Style */
-        .btn-play-main { width: 56px; height: 56px; border-radius: 50%; background-color: #1db954; border: none; color: black; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-play-main { 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 50%; 
+            background-color: #1db954; 
+            border: none; 
+            color: black; 
+            font-size: 1.5rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: 0.2s; 
+        }
         .btn-play-main:hover { transform: scale(1.05); background-color: #1ed760; }
 
-        /* Estilo para que el reproductor nativo no se vea feo pero permita interacción */
+        /* Ajustes visuales para el audio nativo */
         audio::-webkit-media-controls-enclosure { background-color: rgba(255,255,255,0.1); border-radius: 8px; }
         audio::-webkit-media-controls-panel { background-color: #282828; }
         audio::-webkit-media-controls-current-time-display, 
         audio::-webkit-media-controls-time-remaining-display { color: white; }
+
+        /* Estilo de la barra de scroll (opcional para que no desentone con el dark mode) */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
     </style>
 }

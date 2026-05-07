@@ -42,7 +42,6 @@
         margin-top: 10px;
     }
 
-    /* MAGIA PURA CSS: Abre el menú al hacer clic y lo cierra al salir */
     .dropdown:focus-within .dropdown-menu-planes {
         display: block !important;
     }
@@ -194,7 +193,7 @@
                                             </ul>
                                         </div>
 
-                                        @* Acciones Rápidas *@
+                                        
                                         <form method="post" asp-page-handler="ToggleVerificado" asp-route-id="@user.Id" class="m-0">
                                             <button type="submit" class="btn btn-sm border-0 btn-action shadow-none">
                                                 <i class="bi @(user.EsVerificado ? "bi-patch-check-fill text-info" : "bi-patch-check text-secondary") fs-5"></i>

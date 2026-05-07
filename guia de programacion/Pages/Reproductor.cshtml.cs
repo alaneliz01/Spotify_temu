@@ -43,11 +43,30 @@ namespace spotify.Pages
             {
                 ListaReproduccion = await _context.Favoritos.Where(f => f.UsuarioId == usuarioId.Value).Include(f => f.Cancion).Select(f => f.Cancion).ToListAsync();
             }
+            else if (Contexto == "genero" && !string.IsNullOrEmpty(Valor))
+            {
+                ListaReproduccion = await _context.Canciones
+                                                .Where(c => c.Genero == Valor)
+                                                .ToListAsync();
+            }
+            else if (Contexto == "artista" && !string.IsNullOrEmpty(Valor))
+            {
+                ListaReproduccion = await _context.Canciones
+                                                .Where(c => c.Artista.ToLower() == Valor.ToLower())
+                                                .ToListAsync();
+            }
+            else if(Contexto == "busqueda" && !string.IsNullOrEmpty(Valor))
+            {
+                ListaReproduccion = await _context.Canciones
+                    .Where(c => c.Titulo.Contains(Valor) ||
+                                c.Artista.Contains(Valor) ||
+                                c.Genero == Valor)
+                    .ToListAsync();
+            }
             else
             {
                 ListaReproduccion = await _context.Canciones.ToListAsync();
             }
-
             Cancion = await _context.Canciones.FirstOrDefaultAsync(c => c.Id == id);
             if (Cancion == null) return RedirectToPage("/Inicio");
 

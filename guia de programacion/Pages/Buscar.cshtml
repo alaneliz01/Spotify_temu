@@ -38,7 +38,6 @@
 {
                     <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                         <div class="spotify-card p-3 h-100">
-                            @* Pasamos el contexto 'genero' si el usuario buscó por categoría *@
                             <a asp-page="/Reproductor" asp-route-id="@cancion.Id" asp-route-contexto="genero" asp-route-valor="@cancion.Genero" class="text-decoration-none">
                                 <div class="img-container position-relative mb-3">
                                     <img src="@cancion.RutaPortada" class="img-fluid rounded shadow-lg">
